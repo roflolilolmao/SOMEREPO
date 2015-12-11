@@ -49,7 +49,6 @@ FUNC_NAMES = (
 
 
 RESERVED_WORDS = (
-    'IDENTIFIER',
     'SOMETHING',
     'SOMEONE',
     'SOMEBODY',
@@ -59,9 +58,6 @@ RESERVED_WORDS = (
     'SOMEHOW',
     'SOMEPLACE',
     'IS',
-    'SHOW',
-    'ME',
-    'WHAT',
     'COULD',
     'BE'
     )
@@ -75,14 +71,15 @@ tokens = (
     'FUNC',
     'NUMBER',
     'ADD_OP',
-    'MUL_OP'
+    'MUL_OP',
+    'DISPLAY_VAR',
+    'IDENTIFIER',
     ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS))
+
 t_DOT = r'\.'
 t_COMMA = r','
 t_SEMICOLON = r';'
 t_LINEBREAK = r'\n'
-t_ADD_OP = r'PLUS|MINUS'
-t_MUL_OP = r'BY|OUT OF'
 
 # ===============================================================================
 #
@@ -91,16 +88,18 @@ t_MUL_OP = r'BY|OUT OF'
 # ===============================================================================
 
 
-def t_IDENTIFIER(T):
-    r'[A-Za-z_]\w*'
-    if T.value in RESERVED_WORDS:
-        T.type = T.value.upper()
-    elif T.value in VAR_NAMES:
-        T.type = 'VAR'
-    elif T.value in FUNC_NAMES:
-        T.type = 'FUNC'
-    else:
-        t_error(T)
+def t_ADD_OP(T):
+    r'PLUS|MINUS'
+    return T
+
+
+def t_MUL_OP(T):
+    r'BY|OUT\ OF'
+    return T
+
+
+def t_DISPLAY_VAR(T):
+    r'SHOW\ ME\ WHAT'
     return T
 
 
@@ -116,11 +115,26 @@ def t_NUMBER(T):
     return T
 
 
+# MUST BE AT THE END BECAUSE OUR OPERATORS AND OTHER COMPOSED IDENTIFIERS ARE WORD BASED
+def t_IDENTIFIER(T):
+    r'[A-Za-z_]\w*'
+    if T.value in RESERVED_WORDS:
+        T.type = T.value
+    elif T.value in VAR_NAMES:
+        T.type = 'VAR'
+    elif T.value in FUNC_NAMES:
+        T.type = 'FUNC'
+    else:
+        t_error(T)
+    return T
+
+
+
 t_ignore = ' \t'
 
 
 def t_error(T):
-    print("LEX: ILLEGAL CHARACTER '%s'" % T.value[0])
+    print("LEX: ILLEGAL WORD '%s'" % T.value)
     T.lexer.skip(1)
 
 # ===============================================================================
