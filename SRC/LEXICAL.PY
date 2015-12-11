@@ -1,5 +1,4 @@
 import ply.lex as LEX
-from enum import Enum
 
 __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
 
