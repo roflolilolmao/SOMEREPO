@@ -59,19 +59,22 @@ RESERVED_WORDS = (
     'SOMEHOW',
     'SOMEPLACE',
     'IS',
-    'SHOW ME WHAT',
-    'COULD BE'
+    'SHOW',
+    'ME',
+    'WHAT',
+    'COULD',
+    'BE'
     )
 
-TOKENS = (
+tokens = (
     'DOT',
     'COMMA',
     'SEMICOLON',
     'LINEBREAK',
     'VAR',
-    'FUNC'
+    'FUNC',
+    'NUMBER'
     ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS + FUNC_NAMES + VAR_NAMES))
-
 t_DOT = r'\.'
 t_COMMA = r','
 t_SEMICOLON = r';'
@@ -84,28 +87,45 @@ t_LINEBREAK = r'\n'
 # ===============================================================================
 
 
-def t_IDENTIFIER(t):
+def t_IDENTIFIER(T):
     r'[A-Za-z_]\w*'
-    if t.value in RESERVED_WORDS:
-        t.type = t.value.upper()
-    elif t.value in VAR_NAMES:
-        t.type = 'VAR'
-    elif t.value in FUNC_NAMES:
-        t.type = 'FUNC'
+    if T.value in RESERVED_WORDS:
+        T.type = T.value.upper()
+    elif T.value in VAR_NAMES:
+        T.type = 'VAR'
+    elif T.value in FUNC_NAMES:
+        T.type = 'FUNC'
     else:
-        t_error(t)
-    return t
+        t_error(T)
+    return T
 
 
-def t_error(t):
-    print("LEX: ILLEGAL CHARACTER '%s'" % t.value[0])
-    t.lexer.skip(1)
+def t_NUMBER(T):
+    r'\d+(\.\d+)?'
+    try:
+        T.value = int(T.value)
+    except ValueError:
+        try:
+            T.value = float(T.value)
+        except ValueError:
+            print('VALUE ERROR THIS IS NOT A FLOAT')
+    return T
+
+
+t_ignore = ' \t'
+
+
+def t_error(T):
+    print("LEX: ILLEGAL CHARACTER '%s'" % T.value[0])
+    T.lexer.skip(1)
 
 # ===============================================================================
 #
 #                               LEXEMS MAIN FUNCTION
 #
 # ===============================================================================
+
+LEX.lex()
 
 
 if __name__ == "__main__":
@@ -118,4 +138,4 @@ if __name__ == "__main__":
         TOKEN = LEX.token()
         if not TOKEN:
             break
-        print("LINE %d %s(%s)" % (TOKEN.lineno, TOKEN.TYPE, TOKEN.value))
+        print("LINE {} {} ({})".format(TOKEN.lineno, TOKEN.type, TOKEN.value))
