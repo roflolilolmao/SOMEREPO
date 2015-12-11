@@ -49,40 +49,40 @@ FUNC_NAMES = (
 
 
 RESERVED_WORDS = (
-    'IDENTIFIER',
     'SOMETHING',
-    'SOMEONE',
-    'SOMEBODY',
-    'SOMEWHAT',
-    'SOMEWAY',
-    'SOMETIMES',
-    'SOMEHOW',
-    'SOMEPLACE',
+    # 'SOMEONE',
+    # 'SOMEBODY',
+    # 'SOMEWHAT',
+    # 'SOMEWAY',
+    # 'SOMETIMES',
+    # 'SOMEHOW',
+    # 'SOMEPLACE',
     'IS',
-    'SHOW',
-    'ME',
-    'WHAT',
-    'COULD',
-    'BE'
+    # 'SHOW',
+    # 'ME',
+    # 'WHAT',
+    # 'COULD',
+    # 'BE',
+    'OUT',
+    'OF',
+    'PLUS',
+    'MINUS',
+    'BY'
     )
 
 tokens = (
     'DOT',
-    'COMMA',
-    'SEMICOLON',
-    'LINEBREAK',
+    # 'COMMA',
+    # 'SEMICOLON',
+    # 'LINEBREAK',
     'VAR',
-    'FUNC',
-    'NUMBER',
-    'ADD_OP',
-    'MUL_OP'
+    # 'FUNC',
+    'NUMBER'
     ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS))
 t_DOT = r'\.'
-t_COMMA = r','
-t_SEMICOLON = r';'
-t_LINEBREAK = r'\n'
-t_ADD_OP = r'PLUS|MINUS'
-t_MUL_OP = r'BY|OUT OF'
+# t_COMMA = r','
+# t_SEMICOLON = r';'
+# t_LINEBREAK = r'\n'
 
 # ===============================================================================
 #
@@ -91,7 +91,7 @@ t_MUL_OP = r'BY|OUT OF'
 # ===============================================================================
 
 
-def t_IDENTIFIER(T):
+def t_WORDS(T):
     r'[A-Za-z_]\w*'
     if T.value in RESERVED_WORDS:
         T.type = T.value.upper()

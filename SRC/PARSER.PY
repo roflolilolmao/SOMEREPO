@@ -10,16 +10,22 @@ __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
 #
 # ===============================================================================
 
-OPERATIONS = {
-    # TODO : COMPLETE THE OPERATORS LIST ACCORDING TO SPECIFICATIONS
-    }
+operations = {
+    'PLUS': lambda X, Y: X + Y,
+    'MINUS': lambda X, Y: X - Y,
+    'BY': lambda X, Y: X * Y,
+    'OUT': lambda X, Y: X / Y
+}
 
 # OUR CLASS ENUMERATION FOR VAR ACCESS
 
-
 VARS = {
     
-    }
+}
+
+FUNCS = {
+
+}
 
 # ===============================================================================
 #
@@ -38,28 +44,43 @@ def p_PROGRAM_STATEMENT(P):
 
 
 def p_STATEMENT_EXP(P):
-    '''STATEMENT : ASSIGNMENT
-    | STRUCTURE'''
+    '''STATEMENT : ASSIGNMENT'''
+    # | STRUCTURE'''
     P[0] = P[1]
 
 
 def p_ASSIGNEMENT(P):
     '''ASSIGNMENT : SOMETHING VAR IS EXPRESSION'''
-    P[0] = AssignNode([TokenNode(P[1]), P[3]])
+    print('salut {}'.format(P[4]))
+    P[0] = AssignNode([TokenNode(P[2]), P[4]])
 
 
 def p_EXPRESSION_NUM(P):
     '''EXPRESSION : NUMBER
     | SOMETHING VAR'''
-    if len(P) < 2:
-        P[0] = TokenNode(P[1])
+    if len(P) > 2:
+        P[0] = TokenNode(P[2])
     else:
         # USE VAR{}
-        P[0] = TokenNode(P[2])
+        P[0] = TokenNode(P[1])
 
 
 def p_EXPRESSION_OP(P):
-    '''EXPRESSION : EXPRESSION
+    '''EXPRESSION : EXPRESSION PLUS EXPRESSION
+    | EXPRESSION MINUS EXPRESSION
+    | EXPRESSION BY EXPRESSION
+    | EXPRESSION OUT OF EXPRESSION'''
+    if len(P) > 4:
+        P[0] = OpNode(P[2], [P[1], P[4]])
+    else:
+        P[0] = OpNode(P[2], [P[1], P[3]])
+
+
+def p_error(P):
+    print('PARSER: SYNTAX ERROR: {}'.format(P))
+    YACC.yacc().errok()
+
+
 # ===============================================================================
 #
 #                         SOMELANGUAGE PARSER MAIN FUNCTION
