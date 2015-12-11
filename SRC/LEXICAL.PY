@@ -73,12 +73,16 @@ tokens = (
     'LINEBREAK',
     'VAR',
     'FUNC',
-    'NUMBER'
-    ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS + FUNC_NAMES + VAR_NAMES))
+    'NUMBER',
+    'ADD_OP',
+    'MUL_OP'
+    ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS))
 t_DOT = r'\.'
 t_COMMA = r','
 t_SEMICOLON = r';'
 t_LINEBREAK = r'\n'
+t_ADD_OP = r'PLUS|MINUS'
+t_MUL_OP = r'BY|OUT OF'
 
 # ===============================================================================
 #

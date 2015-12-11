@@ -1,6 +1,6 @@
 import ply.yacc as YACC
-from LEXICAL.PY import TOKENS
-import AST
+from LEXICAL import *
+from AST import *
 
 __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
 
@@ -19,7 +19,7 @@ OPERATIONS = {
 
 VARS = {
     
-}
+    }
 
 # ===============================================================================
 #
@@ -28,12 +28,45 @@ VARS = {
 # ===============================================================================
 
 
+def p_PROGRAM_STATEMENT(P):
+    '''PROGRAM : STATEMENT
+    | STATEMENT DOT PROGRAM'''
+    if len(P) > 2:
+        P[0] = ProgramNode([P[1]] + P[3].children)
+    else:
+        P[0] = ProgramNode(P[1])
+
+
+def p_STATEMENT_EXP(P):
+    '''STATEMENT : ASSIGNMENT
+    | STRUCTURE'''
+    P[0] = P[1]
+
+
+def p_ASSIGNEMENT(P):
+    '''ASSIGNMENT : SOMETHING VAR IS EXPRESSION'''
+    P[0] = AssignNode([TokenNode(P[1]), P[3]])
+
+
+def p_EXPRESSION_NUM(P):
+    '''EXPRESSION : NUMBER
+    | SOMETHING VAR'''
+    if len(P) < 2:
+        P[0] = TokenNode(P[1])
+    else:
+        # USE VAR{}
+        P[0] = TokenNode(P[2])
+
+
+def p_EXPRESSION_OP(P):
+    '''EXPRESSION : EXPRESSION
 # ===============================================================================
 #
 #                         SOMELANGUAGE PARSER MAIN FUNCTION
 #
 # ===============================================================================
 
+YACC.yacc()
 
 if __name__ == "__main__":
     import sys
