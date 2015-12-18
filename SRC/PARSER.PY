@@ -37,13 +37,14 @@ FUNCS = {
 
 
 def p_PROGRAM_STATEMENT(P):
-    '''PROGRAM : STATEMENT DOT
-    | STATEMENT DOT PROGRAM DOT'''
-    if len(P) > 2:
-        P[0] = ProgramNode([P[1]] + P[3].children)
-    else:
-        P[0] = ProgramNode(P[1])
+    '''PROGRAM : STATEMENT DOT'''
+    P[0] = ProgramNode(P[1])
     print(inspect.stack()[0][3], P[0])
+
+
+def p_PROGRAM_STATEMENT_REKT(P):
+    '''PROGRAM : STATEMENT DOT PROGRAM'''
+    P[0] = ProgramNode([P[1]] + P[3].children)
 
 
 def p_STATEMENT_EXP(P):
