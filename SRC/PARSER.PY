@@ -14,7 +14,7 @@ operations = {
     'PLUS': lambda X, Y: X + Y,
     'MINUS': lambda X, Y: X - Y,
     'BY': lambda X, Y: X * Y,
-    'OUT': lambda X, Y: X / Y
+    'OUT OF': lambda X, Y: X / Y
 }
 
 # OUR CLASS ENUMERATION FOR VAR ACCESS
@@ -51,7 +51,6 @@ def p_STATEMENT_EXP(P):
 
 def p_ASSIGNEMENT(P):
     '''ASSIGNMENT : SOMETHING VAR IS EXPRESSION'''
-    print('salut {}'.format(P[4]))
     P[0] = AssignNode([TokenNode(P[2]), P[4]])
 
 
@@ -66,14 +65,9 @@ def p_EXPRESSION_NUM(P):
 
 
 def p_EXPRESSION_OP(P):
-    '''EXPRESSION : EXPRESSION PLUS EXPRESSION
-    | EXPRESSION MINUS EXPRESSION
-    | EXPRESSION BY EXPRESSION
-    | EXPRESSION OUT OF EXPRESSION'''
-    if len(P) > 4:
-        P[0] = OpNode(P[2], [P[1], P[4]])
-    else:
-        P[0] = OpNode(P[2], [P[1], P[3]])
+    '''EXPRESSION : EXPRESSION ADD_OP EXPRESSION
+    | EXPRESSION MUL_OP EXPRESSION'''
+    P[0] = OpNode(P[2], [P[1], P[3]])
 
 
 def p_error(P):
