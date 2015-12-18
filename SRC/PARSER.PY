@@ -61,7 +61,7 @@ def p_ASSIGNEMENT(P):
 
 
 def p_PRINT(P):
-    '''PRINT : DISPLAY_VAR VAR'''
+    '''PRINT : DISPLAY_VAR EXPRESSION'''
     P[0] = PrintNode(P[2])
 
 
