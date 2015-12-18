@@ -7,3 +7,5 @@ SRC/TEST.TXT
 SRC/parser.out
 SRC/parsetab.py
 SRC/__pycache__/*
+
+*.pyc
