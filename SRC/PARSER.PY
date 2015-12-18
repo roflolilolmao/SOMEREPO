@@ -37,8 +37,8 @@ FUNCS = {
 
 
 def p_PROGRAM_STATEMENT(P):
-    '''PROGRAM : STATEMENT
-    | STATEMENT DOT PROGRAM'''
+    '''PROGRAM : STATEMENT DOT
+    | STATEMENT DOT PROGRAM DOT'''
     if len(P) > 2:
         P[0] = ProgramNode([P[1]] + P[3].children)
     else:
