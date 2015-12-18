@@ -4,3 +4,5 @@ CAHIER_CHARGES.MD
 
 SRC/.idea/*
 SRC/TEST.TXT
+SRC/parser.out
+SRC/parsetab.py
