@@ -74,7 +74,6 @@ def p_error(P):
     print('PARSER: SYNTAX ERROR: {}'.format(P))
     YACC.yacc().errok()
 
-
 # ===============================================================================
 #
 #                         SOMELANGUAGE PARSER MAIN FUNCTION
