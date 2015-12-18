@@ -8,29 +8,6 @@ __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
 
 # ===============================================================================
 #
-#                    KEYWORDS, TOKENS, DELIMITERS AND SEPARATORS
-#
-# ===============================================================================
-
-operations = {
-    'PLUS': lambda X, Y: X + Y,
-    'MINUS': lambda X, Y: X - Y,
-    'BY': lambda X, Y: X * Y,
-    'OUT OF': lambda X, Y: X / Y
-}
-
-# OUR CLASS ENUMERATION FOR VAR ACCESS
-
-VARS = {
-    
-}
-
-FUNCS = {
-
-}
-
-# ===============================================================================
-#
 #                         SOMELANGUAGE STRUCTURE DEFINITION
 #
 # ===============================================================================
