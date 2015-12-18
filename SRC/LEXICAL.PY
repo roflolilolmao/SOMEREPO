@@ -72,7 +72,7 @@ tokens = (
     'NUMBER',
     'ADD_OP',
     'MUL_OP',
-    # 'DISPLAY_VAR',
+    'DISPLAY_VAR',
     # 'WORDS'
 ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS))
 
@@ -98,9 +98,9 @@ def t_MUL_OP(T):
     return T
 
 
-# def t_DISPLAY_VAR(T):
-#     r'SHOW\ ME\ WHAT'
-#     return T
+def t_DISPLAY_VAR(T):
+    r'SHOW\ ME\ WHAT\ IS'
+    return T
 
 
 def t_NUMBER(T):
