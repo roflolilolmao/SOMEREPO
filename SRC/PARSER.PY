@@ -66,10 +66,8 @@ def p_EXPRESSION_NUM(P):
 
 
 def p_EXPRESSION_OP(P):
-    '''EXPRESSION : EXPRESSION PLUS EXPRESSION
-    | EXPRESSION MINUS EXPRESSION
-    | EXPRESSION BY EXPRESSION
-    | EXPRESSION OUT OF EXPRESSION'''
+    '''EXPRESSION : EXPRESSION ADD_OP EXPRESSION
+    | EXPRESSION MUL_OP EXPRESSION'''
     if len(P) > 4:
         P[0] = OpNode(P[2], [P[1], P[4]])
     else:
@@ -79,7 +77,6 @@ def p_EXPRESSION_OP(P):
 def p_error(P):
     print('PARSER: SYNTAX ERROR: {}'.format(P))
     YACC.yacc().errok()
-
 
 # ===============================================================================
 #
