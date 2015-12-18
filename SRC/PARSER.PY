@@ -44,7 +44,8 @@ def p_PROGRAM_STATEMENT(P):
 
 
 def p_STATEMENT_EXP(P):
-    '''STATEMENT : ASSIGNMENT'''
+    '''STATEMENT : ASSIGNMENT
+    | PRINT'''
     # | STRUCTURE'''
     P[0] = P[1]
 
@@ -54,6 +55,12 @@ def p_ASSIGNEMENT(P):
     P[0] = AssignNode([TokenNode(P[2]), P[4]])
 
 
+def p_PRINT(P):
+    '''PRINT : DISPLAY_VAR VAR'''
+    P[0] = PrintNode(P[2])
+
+
+# ========== EXPRESSIONS ==========
 def p_EXPRESSION_NUM(P):
     '''EXPRESSION : NUMBER
     | SOMETHING VAR'''
