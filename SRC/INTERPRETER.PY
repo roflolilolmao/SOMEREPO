@@ -12,12 +12,23 @@ operations = {
 }
 
 VARS = {}
+FUNCS = {}
 
 
 @addToClass(AST.ProgramNode)
 def execute(self):
     for c in self.children:
         c.execute()
+
+
+@addToClass(AST.AssignFunctionNode)
+def execute(self):
+    FUNCS[self.name] = self.child
+
+
+@addToClass(AST.FunctionNode)
+def execute(self):
+    return FUNCS[self.name].execute()
 
 
 @addToClass(AST.TokenNode)

@@ -66,9 +66,10 @@ tokens = (
     'DOT',
     # 'COMMA',
     # 'SEMICOLON',
-    # 'LINEBREAK',
+    'LINEBREAK',
     'VAR',
-    # 'FUNC',
+    'FUNC',
+    'SOMEFUNC',
     'NUMBER',
     'ADD_OP',
     'MUL_OP',
@@ -79,13 +80,19 @@ tokens = (
 t_DOT = r'\.'
 # t_COMMA = r','
 # t_SEMICOLON = r';'
-# t_LINEBREAK = r'\n'
+t_LINEBREAK = r'\n'
+# t_SOMEFUNC = r'SOMEONE|SOMEBODY'
 
 # ===============================================================================
 #
 #                                 PARSER ANALYSERS
 #
 # ===============================================================================
+
+
+def t_SOMEFUNC(T):
+    r"""SOMEONE|SOMEBODY"""
+    return T
 
 
 def t_ADD_OP(T):

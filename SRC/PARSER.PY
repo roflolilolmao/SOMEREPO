@@ -18,15 +18,24 @@ def p_PROGRAM_STATEMENT(P):
     P[0] = ProgramNode(P[1])
 
 
-def p_PROGRAM_STATEMENT_REKT(P):
+def p_PROGRAM_STATEMENT_REC(P):
     """PROGRAM : STATEMENT DOT PROGRAM"""
     P[0] = ProgramNode([P[1]] + P[3].children)
+
+
+def p_PROGRAM_FUNCTION(P):
+    """PROGRAM : FUNCTION PROGRAM"""
+    P[0] = ProgramNode([P[1]] + P[2].children)
+
+
+def p_FUNC_DECL(P):
+    """FUNCTION : SOMEFUNC FUNC IS PROGRAM LINEBREAK"""
+    P[0] = AssignFunctionNode(P[2], P[4])
 
 
 def p_STATEMENT_EXP(P):
     """STATEMENT : ASSIGNMENT
     | PRINT"""
-    # | STRUCTURE'''
     P[0] = P[1]
 
 
@@ -48,6 +57,11 @@ def p_EXPRESSION_NUM(P):
         P[0] = TokenNode(P[2])
     else:
         P[0] = TokenNode(P[1])
+
+
+def p_EXPRESSION_FUNC(P):
+    """EXPRESSION : SOMEFUNC FUNC"""
+    P[0] = FunctionNode(P[2])
 
 
 def p_EXPRESSION_OP(P):
