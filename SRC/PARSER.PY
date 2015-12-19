@@ -1,7 +1,7 @@
 import ply.yacc as YACC
 from LEXICAL import *
 from AST import *
-#DEBUG
+# DEBUG
 import inspect
 
 __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
@@ -14,51 +14,46 @@ __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
 
 
 def p_PROGRAM_STATEMENT(P):
-    '''PROGRAM : STATEMENT DOT'''
+    """PROGRAM : STATEMENT DOT"""
     P[0] = ProgramNode(P[1])
-    print(inspect.stack()[0][3], P[0])
 
 
 def p_PROGRAM_STATEMENT_REKT(P):
-    '''PROGRAM : STATEMENT DOT PROGRAM'''
+    """PROGRAM : STATEMENT DOT PROGRAM"""
     P[0] = ProgramNode([P[1]] + P[3].children)
 
 
 def p_STATEMENT_EXP(P):
-    '''STATEMENT : ASSIGNMENT
-    | PRINT'''
+    """STATEMENT : ASSIGNMENT
+    | PRINT"""
     # | STRUCTURE'''
     P[0] = P[1]
-    print(inspect.stack()[0][3], P[0])
 
 
 def p_ASSIGNEMENT(P):
-    '''ASSIGNMENT : SOMETHING VAR IS EXPRESSION'''
+    """ASSIGNMENT : SOMETHING VAR IS EXPRESSION"""
     P[0] = AssignNode([TokenNode(P[2]), P[4]])
-    print(inspect.stack()[0][3],  P[0])
 
 
 def p_PRINT(P):
-    '''PRINT : DISPLAY_VAR EXPRESSION'''
+    """PRINT : DISPLAY_VAR EXPRESSION"""
     P[0] = PrintNode(P[2])
 
 
 # ========== EXPRESSIONS ==========
 def p_EXPRESSION_NUM(P):
-    '''EXPRESSION : NUMBER
-    | SOMETHING VAR'''
+    """EXPRESSION : NUMBER
+    | SOMETHING VAR"""
     if len(P) > 2:
         P[0] = TokenNode(P[2])
     else:
         P[0] = TokenNode(P[1])
-    print(inspect.stack()[0][3], P[1])
 
 
 def p_EXPRESSION_OP(P):
-    '''EXPRESSION : EXPRESSION ADD_OP EXPRESSION
-    | EXPRESSION MUL_OP EXPRESSION'''
+    """EXPRESSION : EXPRESSION ADD_OP EXPRESSION
+    | EXPRESSION MUL_OP EXPRESSION"""
     P[0] = OpNode(P[2], [P[1], P[3]])
-    print(inspect.stack()[0][3], P[0])
 
 
 def p_error(P):

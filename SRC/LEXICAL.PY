@@ -89,35 +89,35 @@ t_DOT = r'\.'
 
 
 def t_ADD_OP(T):
-    r'PLUS|MINUS'
+    r"""PLUS|MINUS"""
     return T
 
 
 def t_MUL_OP(T):
-    r'BY|OUT\ OF'
+    r"""BY|OUT\ OF"""
     return T
 
 
 def t_DISPLAY_VAR(T):
-    r'SHOW\ ME\ WHAT\ IS'
+    r"""SHOW\ ME\ WHAT\ IS"""
     return T
 
 
 def t_NUMBER(T):
-    r'\d+(\.\d+)?'
+    r"""\d+(\.\d+)?"""
     try:
         T.value = int(T.value)
     except ValueError:
         try:
             T.value = float(T.value)
         except ValueError:
-            print('VALUE ERROR THIS IS NOT A FLOAT')
+            print('VALUE ERROR THIS IS NOT A NUMBER')
     return T
 
 
 # MUST BE AT THE END BECAUSE OUR OPERATORS AND OTHER COMPOSED IDENTIFIERS ARE WORD BASED
 def t_WORDS(T):
-    r'[A-Za-z_]\w*'
+    r"""[A-Za-z_]\w*"""
     if T.value in RESERVED_WORDS:
         T.type = T.value
     elif T.value in VAR_NAMES:

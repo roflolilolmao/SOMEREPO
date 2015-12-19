@@ -20,16 +20,17 @@ class Node:
 
     def __init__(self, children=None):
         self.ID = str(Node.count)
-        Node.count+=1
-        if not children: self.children = []
+        Node.count += 1
+        if not children:
+            self.children = []
         elif hasattr(children, '__len__'):
             self.children = children
         else:
             self.children = [children]
         self.next = []
 
-    def addNext(self, next):
-        self.next.append(next)
+    def addNext(self, nextNode):
+        self.next.append(nextNode)
 
     def asciitree(self, prefix=''):
         result = "%s%s\n" % (prefix, repr(self))
@@ -48,12 +49,13 @@ class Node:
         return self.type
     
     def makegraphicaltree(self, dot=None, edgeLabels=True):
-            if not dot: dot = pydot.Dot()
-            dot.add_node(pydot.Node(self.ID,label=repr(self), shape=self.shape))
+            if not dot:
+                dot = pydot.Dot()
+            dot.add_node(pydot.Node(self.ID, label=repr(self), shape=self.shape))
             label = edgeLabels and len(self.children)-1
             for i, c in enumerate(self.children):
                 c.makegraphicaltree(dot, edgeLabels)
-                edge = pydot.Edge(self.ID,c.ID)
+                edge = pydot.Edge(self.ID, c.ID)
                 if label:
                     edge.set_label(str(i))
                 dot.add_edge(edge)
@@ -63,8 +65,10 @@ class Node:
 
     def threadTree(self, graph, seen=None, col=0):
             colors = ('red', 'green', 'blue', 'yellow', 'magenta', 'cyan')
-            if not seen: seen = []
-            if self in seen: return
+            if not seen:
+                seen = []
+            if self in seen:
+                return
             seen.append(self)
             new = not graph.get_node(self.ID)
             if new:
@@ -73,7 +77,8 @@ class Node:
                 graph.add_node(graphnode)
             label = len(self.next)-1
             for i, c in enumerate(self.next):
-                if not c: return
+                if not c:
+                    return
                 col = (col + 1) % len(colors)
                 color = colors[col]                
                 c.threadTree(graph, seen, col)
@@ -95,11 +100,11 @@ class Node:
 
 
 class ProgramNode(Node):
-    type = 'Program'
+    type = 'PROGRAM'
 
 
 class TokenNode(Node):
-    type = 'token'
+    type = 'TOKEN'
 
     def __init__(self, tok):
         Node.__init__(self)
@@ -123,11 +128,11 @@ class OpNode(Node):
 
 
 class AssignNode(Node):
-    type = '='
+    type = 'IS'
 
 
 class PrintNode(Node):
-    type = 'print'
+    type = 'SHOW ME WHAT IS'
 
 
 class WhileNode(Node):
