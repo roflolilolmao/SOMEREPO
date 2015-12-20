@@ -103,11 +103,11 @@ class ProgramNode(Node):
     type = 'PROGRAM'
 
 
-class AssignFunctionNode(Node):
-    type = 'ASSIGNFUNCTION'
+class DeclareFunctionNode(Node):
+    type = 'DECLFUNCTION'
 
     def __init__(self, name, child, args=None):
-        Node.__init__(self)
+        Node.__init__(self, child.children)
         self.name = name
         self.child = child
         self.args = args
@@ -119,12 +119,17 @@ class AssignFunctionNode(Node):
 class FunctionNode(Node):
     type = 'FUNCTION'
 
-    def __init__(self, name):
+    def __init__(self, name, args=None):
         Node.__init__(self)
         self.name = name
+        self.args = args
 
     def __repr__(self):
         return 'FUNC {}'.format(self.name)
+
+
+class ReturnNode(Node):
+    type = 'RETURN'
 
 
 class TokenNode(Node):

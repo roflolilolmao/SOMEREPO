@@ -50,8 +50,6 @@ FUNC_NAMES = (
 
 RESERVED_WORDS = (
     'SOMETHING',
-    # 'SOMEONE',
-    # 'SOMEBODY',
     # 'SOMEWHAT',
     # 'SOMEWAY',
     # 'SOMETIMES',
@@ -70,6 +68,7 @@ tokens = (
     'VAR',
     'FUNC',
     'SOMEFUNC',
+    'RETURN',
     'NUMBER',
     'ADD_OP',
     'MUL_OP',
@@ -107,6 +106,11 @@ def t_MUL_OP(T):
 
 def t_DISPLAY_VAR(T):
     r"""SHOW\ ME\ WHAT\ IS"""
+    return T
+
+
+def t_RETURN(T):
+    r"""GIVE\ ME"""
     return T
 
 

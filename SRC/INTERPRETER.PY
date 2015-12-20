@@ -21,14 +21,27 @@ def execute(self):
         c.execute()
 
 
-@addToClass(AST.AssignFunctionNode)
+@addToClass(AST.DeclareFunctionNode)
 def execute(self):
-    FUNCS[self.name] = self.child
+    FUNCS[self.name] = self.children
 
 
 @addToClass(AST.FunctionNode)
 def execute(self):
-    return FUNCS[self.name].execute()
+    try:
+        print(FUNCS[self.name])
+        for c in FUNCS[self.name]:
+            print(c)
+            if False:
+                return c.execute()
+            c.execute()
+    except KeyError:
+        print("*** ERROR: FUNC {} NOT DEFINED!".format(self.name))
+
+
+@addToClass(AST.ReturnNode)
+def execute(self):
+    return self.children[0].execute()
 
 
 @addToClass(AST.TokenNode)

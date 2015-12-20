@@ -6,12 +6,12 @@ import inspect
 
 __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
 
+
 # ===============================================================================
 #
 #                         SOMELANGUAGE STRUCTURE DEFINITION
 #
 # ===============================================================================
-
 
 def p_PROGRAM_STATEMENT(P):
     """PROGRAM : STATEMENT DOT"""
@@ -29,8 +29,24 @@ def p_PROGRAM_FUNCTION(P):
 
 
 def p_FUNC_DECL(P):
-    """FUNCTION : SOMEFUNC FUNC IS PROGRAM LINEBREAK"""
-    P[0] = AssignFunctionNode(P[2], P[4])
+    """FUNCTION : SOMEFUNC FUNC IS FUNCBODY LINEBREAK"""
+    P[0] = DeclareFunctionNode(P[2], P[4])
+
+
+def p_FUNCBODY(P):
+    """FUNCBODY : STATEMENT DOT"""
+    P[0] = ProgramNode([P[1]])
+
+
+def p_FUNCBODY_RETURN(P):
+    """FUNCBODY : RETURN EXPRESSION DOT"""
+    P[0] = ReturnNode([P[2]])
+    print(P[0])
+
+
+def p_FUNCBODY_REC(P):
+    """FUNCBODY : STATEMENT DOT FUNCBODY"""
+    P[0] = ProgramNode([P[1]] + P[3].children)
 
 
 def p_STATEMENT_EXP(P):
@@ -50,6 +66,7 @@ def p_PRINT(P):
 
 
 # ========== EXPRESSIONS ==========
+
 def p_EXPRESSION_NUM(P):
     """EXPRESSION : NUMBER
     | SOMETHING VAR"""
