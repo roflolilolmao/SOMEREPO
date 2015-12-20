@@ -113,7 +113,7 @@ class DeclareFunctionNode(Node):
         self.args = args
 
     def __repr__(self):
-        return 'ASSIGN {}'.format(self.name)
+        return 'DECLARE {}'.format(self.name)
 
 
 class FunctionNode(Node):
@@ -130,6 +130,9 @@ class FunctionNode(Node):
 
 class ReturnNode(Node):
     type = 'RETURN'
+
+    def __init__(self, expression):
+        Node.__init__(self, [expression])
 
 
 class TokenNode(Node):

@@ -28,6 +28,8 @@ def p_PROGRAM_FUNCTION(P):
     P[0] = ProgramNode([P[1]] + P[2].children)
 
 
+# ========== FUNCTIONS ==========
+
 def p_FUNC_DECL(P):
     """FUNCTION : SOMEFUNC FUNC IS FUNCBODY LINEBREAK"""
     P[0] = DeclareFunctionNode(P[2], P[4])
@@ -40,14 +42,15 @@ def p_FUNCBODY(P):
 
 def p_FUNCBODY_RETURN(P):
     """FUNCBODY : RETURN EXPRESSION DOT"""
-    P[0] = ReturnNode([P[2]])
-    print(P[0])
+    P[0] = ProgramNode([ReturnNode(P[2])])
 
 
 def p_FUNCBODY_REC(P):
     """FUNCBODY : STATEMENT DOT FUNCBODY"""
     P[0] = ProgramNode([P[1]] + P[3].children)
 
+
+# ========== STATEMENTS ==========
 
 def p_STATEMENT_EXP(P):
     """STATEMENT : ASSIGNMENT

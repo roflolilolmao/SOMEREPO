@@ -29,10 +29,8 @@ def execute(self):
 @addToClass(AST.FunctionNode)
 def execute(self):
     try:
-        print(FUNCS[self.name])
         for c in FUNCS[self.name]:
-            print(c)
-            if False:
+            if c.type == 'RETURN':
                 return c.execute()
             c.execute()
     except KeyError:
