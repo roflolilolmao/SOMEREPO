@@ -85,12 +85,16 @@ def p_ASSIGNEMENT(P):
 
 
 def p_PRINT(P):
-    """PRINT : DISPLAY_VAR EXPRESSION
-    | DISPLAY_VAR ASCII EXPRESSION"""
-    P[0] = PrintNode(P[3 if len(P) > 3 else 2], len(P) > 3)
+    """PRINT : DISPLAY_VAR EXPRESSION"""
+    P[0] = PrintNode(P[2])
 
 
 # ========== EXPRESSIONS ==========
+
+def p_EXPRESSION_ASCII(P):
+    """EXPRESSION : ASCII EXPRESSION"""
+    P[0] = AsciiNode([P[2]])
+
 
 def p_EXPRESSION_NUM(P):
     """EXPRESSION : NUMBER

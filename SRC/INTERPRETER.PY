@@ -82,17 +82,19 @@ def execute(self):
         VARS[self.children[0].tok][self.children[0].accessor] = VALUE
 
 
+@addToClass(AST.AsciiNode)
+def execute(self):
+    return chr(self.children[0].tok)
+
+
 @addToClass(AST.PrintNode)
 def execute(self):
     VALUE = self.children[0].execute()
     if isinstance(VALUE, dict):
         VALUE = VALUE[None]
-    if self.text:
-        print(chr(VALUE), end='')
-    else:
-        if isinstance(VALUE, bool):
-            VALUE = 'YEA' if VALUE else 'NAY'
-        print(VALUE, end='')
+    if isinstance(VALUE, bool):
+        VALUE = 'YEA' if VALUE else 'NAY'
+    print(VALUE, end='')
 
 
 @addToClass(AST.WhileNode)

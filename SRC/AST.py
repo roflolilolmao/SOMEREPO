@@ -171,12 +171,12 @@ class AssignNode(Node):
     type = 'IS'
 
 
+class AsciiNode(Node):
+    type = 'ASCII'
+
+
 class PrintNode(Node):
     type = 'SHOW ME'
-
-    def __init__(self, children, text):
-        Node.__init__(self, children)
-        self.text = text
 
 
 class WhileNode(Node):
