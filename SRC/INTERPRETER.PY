@@ -33,9 +33,9 @@ def execute(self):
     try:
         SAVEVARS = {i: j for i, j in VARS.items()}
         VARS.clear()
-        for i, j in zip(FUNCS[self.name].params.children, self.params.children):
+        for i, j in zip(FUNCS[self.name].children[0].children, self.params.children):
             VARS[i.tok] = {None: j.execute()}
-        for c in FUNCS[self.name].children:
+        for c in FUNCS[self.name].children[1].children:
             if c.type == 'RETURN':
                 OUT = c.execute()
                 VARS.clear()
@@ -46,11 +46,13 @@ def execute(self):
         VARS.update(SAVEVARS)
     except KeyError:
         print("*** ERROR: FUNC {} NOT DEFINED!".format(self.name))
+        print(self.name)
+        print(FUNCS)
 
 
 @addToClass(AST.ReturnNode)
 def execute(self):
-    return VARS[self.children[0].tok]
+    return self.children[0].execute()
 
 
 @addToClass(AST.TokenNode)
@@ -84,7 +86,7 @@ def execute(self):
 
 @addToClass(AST.AsciiNode)
 def execute(self):
-    return chr(self.children[0].tok)
+    return chr(self.children[0].execute())
 
 
 @addToClass(AST.PrintNode)

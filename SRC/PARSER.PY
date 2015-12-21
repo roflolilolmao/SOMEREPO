@@ -47,7 +47,7 @@ def p_PARAMS_REC(P):
 
 def p_FUNC_DECL_ARGS(P):
     """FUNCTION : DECLARE_FUNC SOMEFUNC FUNC WITH PARAMS COLON FUNCBODY LINEBREAK"""
-    P[0] = DeclareFunctionNode(P[3], P[7], P[5])
+    P[0] = DeclareFunctionNode(P[3], [P[5], P[7]])
 
 
 def p_FUNCBODY(P):
@@ -64,7 +64,7 @@ def p_FUNCBODY_REC(P):
 
 def p_STATEMENT_RETURN(P):
     """STATEMENT : RETURN EXPRESSION"""
-    P[0] = ReturnNode(P[2])
+    P[0] = ReturnNode([P[2]])
 
 
 def p_STATEMENT_EXP(P):
@@ -142,7 +142,8 @@ def p_error(P):
 
 precedence = (
     ('left', 'ADD_OP'),
-    ('left', 'MUL_OP')
+    ('left', 'MUL_OP'),
+    ('left', 'ASCII'),
 )
 
 # ===============================================================================
