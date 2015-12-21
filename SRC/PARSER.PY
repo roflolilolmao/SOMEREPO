@@ -74,8 +74,14 @@ def p_STATEMENT_EXP(P):
 
 
 def p_ASSIGNEMENT(P):
-    """ASSIGNMENT : SOMETHING VAR IS EXPRESSION"""
-    P[0] = AssignNode([TokenNode(P[2]), P[4]])
+    """ASSIGNMENT : SOMETHING VAR IS EXPRESSION
+    | SOMETHING VAR SOMEPLACE ACCESSOR IS EXPRESSION"""
+    if len(P) > 5:
+        # SOMETHING VAR SOMEPLACE ACCESSOR IS EXPRESSION
+        P[0] = AssignNode([TokenNode(P[2]), TokenNode(P[4]), P[6]])
+    else:
+        # SOMETHING VAR IS EXPRESSION
+        P[0] = AssignNode([TokenNode(P[2]), P[4]])
 
 
 def p_PRINT(P):
@@ -87,11 +93,17 @@ def p_PRINT(P):
 
 def p_EXPRESSION_NUM(P):
     """EXPRESSION : NUMBER
-    | SOMETHING VAR"""
-    if len(P) > 2:
-        P[0] = TokenNode(P[2])
-    else:
+    | SOMETHING VAR
+    | SOMETHING VAR SOMEPLACE ACCESSOR"""
+    if len(P) == 2:
+        # NUMBER
         P[0] = TokenNode(P[1])
+    elif len(P) == 3:
+        # SOMETHING VAR
+        P[0] = TokenNode(P[2])
+    else:  # len(P) == 5:
+        # SOMETHING VAR SOMEPLACE ACCESSOR
+        P[0] = [TokenNode(P[2]), TokenNode(P[4])]
 
 
 def p_EXPRESSION_FUNC(P):
@@ -140,9 +152,8 @@ if __name__ == "__main__":
     RESULT = PARSE(PROG)
     print('RESULT: {}'.format(RESULT))
     import os
+
     GRAPH = RESULT.makegraphicaltree()
-    NAME = os.path.splitext(sys.argv[1])[0]+'-ast.pdf'
+    NAME = os.path.splitext(sys.argv[1])[0] + '-ast.pdf'
     GRAPH.write_pdf(NAME)
     print("WROTE AST TO ", NAME)
-
-

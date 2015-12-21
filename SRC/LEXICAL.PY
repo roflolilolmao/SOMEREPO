@@ -28,6 +28,25 @@ VAR_NAMES = (
     'DOGMATIC'
 )
 
+VAR_ACCESSORS = (
+    'DUSTY',
+    'GLOOMY',
+    'CHARMING',
+    'CROWDED',
+    'POPULAR',
+    'BURLESQUE',
+    'DARK',
+    'STORMY',
+    'NOISY'
+    'ANCIENT',
+    'DRY'
+    'DESERTIC',
+    'BUSTLING',
+    'POLLUTED',
+    'LIVELY',
+    'PICTURESQUE'
+)
+
 FUNC_NAMES = (
     'BEAUTIFUL',
     'JOYFUL',
@@ -54,7 +73,7 @@ RESERVED_WORDS = (
     # 'SOMEWAY',
     # 'SOMETIMES',
     # 'SOMEHOW',
-    # 'SOMEPLACE',
+    'SOMEPLACE',
     'IS',
     # 'COULD',
     # 'BE',
@@ -68,6 +87,7 @@ tokens = (
     # 'SEMICOLON',
     'LINEBREAK',
     'VAR',
+    'ACCESSOR',
     'FUNC',
     'SOMEFUNC',
     'RETURN',
@@ -147,6 +167,8 @@ def t_WORDS(T):
         T.type = T.value
     elif T.value in VAR_NAMES:
         T.type = 'VAR'
+    elif T.value in VAR_ACCESSORS:
+        T.type = 'ACCESSOR'
     elif T.value in FUNC_NAMES:
         T.type = 'FUNC'
     else:

@@ -145,10 +145,11 @@ class ReturnNode(Node):
 class TokenNode(Node):
     type = 'TOKEN'
 
-    def __init__(self, tok):
+    def __init__(self, tok, accessor=None):
         Node.__init__(self)
         self.tok = tok
-        
+        self.accessor = accessor
+
     def __repr__(self):
         return repr(self.tok)
 

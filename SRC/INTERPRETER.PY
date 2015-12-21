@@ -31,10 +31,10 @@ def execute(self):
 @addToClass(AST.FunctionNode)
 def execute(self):
     try:
-        params = FUNCS[self.name].params
-        SCOPEDVARS = {i.tok: j.tok for i, j in zip(params.children, self.params.children)}
         SAVEVARS = {i: j for i, j in VARS.items()}
-        VARS.__init__(SCOPEDVARS)
+        VARS.clear()
+        for i, j in zip(FUNCS[self.name].params.children, self.params.children):
+            VARS[i.tok] = {None: j.execute()}
         for c in FUNCS[self.name].children:
             if c.type == 'RETURN':
                 OUT = c.execute()
@@ -55,7 +55,7 @@ def execute(self):
 def execute(self):
     if isinstance(self.tok, str):
         try:
-            return VARS[self.tok]
+            return VARS[self.tok][self.accessor]
         except KeyError:
             print("*** ERROR: VAR {} NOT DEFINED!".format(self.tok))
     return self.tok
@@ -71,12 +71,17 @@ def execute(self):
 
 @addToClass(AST.AssignNode)
 def execute(self):
-    VARS[self.children[0].tok] = self.children[1].execute()
+    if self.children[0].tok not in VARS:
+        VARS[self.children[0].tok] = dict()
+    if len(self.children) == 3:
+        VARS[self.children[0].tok][self.children[1].tok] = self.children[2].execute()
+    else:
+        VARS[self.children[0].tok][None] = self.children[1].execute()
 
 
 @addToClass(AST.PrintNode)
 def execute(self):
-    print(self.children[0].execute(), end='')
+    print(self.children[0].execute())
 
 
 @addToClass(AST.WhileNode)
