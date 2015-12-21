@@ -97,6 +97,7 @@ tokens = (
     'DISPLAY_VAR',
     'DECLARE_FUNC',
     'FUNC_PARAMS',
+    'ASCII'
     # 'WORDS'
 ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS))
 
@@ -130,6 +131,11 @@ def t_MUL_OP(T):
 
 def t_DISPLAY_VAR(T):
     r"""SHOW\ ME"""
+    return T
+
+
+def t_ASCII(T):
+    r"""SOME\ STYLE\ FOR"""
     return T
 
 
