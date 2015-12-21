@@ -38,22 +38,23 @@ def execute(self):
         for c in FUNCS[self.name].children:
             if c.type == 'RETURN':
                 OUT = c.execute()
-                VARS.__init__(SAVEVARS)
+                VARS.clear()
+                VARS.update(SAVEVARS)
                 return OUT
             c.execute()
-        VARS.__init__(SAVEVARS)
+        VARS.clear()
+        VARS.update(SAVEVARS)
     except KeyError:
         print("*** ERROR: FUNC {} NOT DEFINED!".format(self.name))
 
 
 @addToClass(AST.ReturnNode)
 def execute(self):
-    return self.children[0].execute()
+    return VARS[self.children[0].tok]
 
 
 @addToClass(AST.TokenNode)
 def execute(self):
-    print(VARS)
     if isinstance(self.tok, str):
         try:
             return VARS[self.tok][self.accessor]
@@ -74,13 +75,19 @@ def execute(self):
 def execute(self):
     if self.children[0].tok not in VARS:
         VARS[self.children[0].tok] = dict()
-    VARS[self.children[0].tok][self.children[0].accessor] = self.children[1].execute()
-
+    VALUE = self.children[1].execute()
+    if isinstance(VALUE, dict):
+        VARS[self.children[0].tok].update(VALUE)
+    else:
+        VARS[self.children[0].tok][self.children[0].accessor] = VALUE
 
 
 @addToClass(AST.PrintNode)
 def execute(self):
-    print(self.children[0].execute())
+    if self.text:
+        print(chr(self.children[0].execute()), end='')
+    else:
+        print(self.children[0].execute(), end='')
 
 
 @addToClass(AST.WhileNode)

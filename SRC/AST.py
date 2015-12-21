@@ -174,6 +174,10 @@ class AssignNode(Node):
 class PrintNode(Node):
     type = 'SHOW ME'
 
+    def __init__(self, children, text):
+        Node.__init__(self, children)
+        self.text = text
+
 
 class WhileNode(Node):
     type = 'while'
