@@ -79,11 +79,17 @@ def p_PRINT(P):
 
 def p_EXPRESSION_NUM(P):
     """EXPRESSION : NUMBER
-    | SOMETHING VAR"""
-    if len(P) > 2:
-        P[0] = TokenNode(P[2])
-    else:
+    | SOMETHING VAR
+    | SOMETHING VAR SOMEPLACE ACCESSOR"""
+    if len(P) == 2:
+        # NUMBER
         P[0] = TokenNode(P[1])
+    elif len(P) == 3:
+        # SOMETHING VAR
+        P[0] = TokenNode(P[2])
+    else: # len(P) == 5:
+        # SOMETHING VAR SOMEPLACE ACCESSOR
+        P[0] = [TokenNode(P[2]), TokenNode(P[4])]
 
 
 def p_EXPRESSION_FUNC(P):

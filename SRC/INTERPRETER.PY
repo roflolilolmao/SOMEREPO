@@ -74,7 +74,10 @@ def execute(self):
 
 @addToClass(AST.PrintNode)
 def execute(self):
-    print(self.children[0].execute())
+    if len(self.children) > 1:
+        print(self.children[0].execute()[self.children[1].execute()])
+    else:
+        print(self.children[0].execute()[None])
 
 
 @addToClass(AST.WhileNode)
