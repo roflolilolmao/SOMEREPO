@@ -121,17 +121,16 @@ class ParamsNode(Node):
 class FunctionNode(Node):
     type = 'FUNCTION'
 
-    def __init__(self, name, params=None):
-        Node.__init__(self)
+    def __init__(self, name, children):
+        Node.__init__(self, children)
         self.name = name
-        self.params = params
 
     def __repr__(self):
         return 'FUNC {}'.format(self.name)
 
 
 class ReturnNode(Node):
-    type = 'RETURN'
+    type = 'GIVE ME'
 
 
 class TokenNode(Node):

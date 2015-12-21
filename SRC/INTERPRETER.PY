@@ -18,7 +18,7 @@ FUNCS = {}
 @addToClass(AST.ProgramNode)
 def execute(self):
     for c in self.children:
-        if c.type == 'RETURN':
+        if c.type == 'GIVE ME':
             return c.execute()
         c.execute()
 
@@ -33,10 +33,10 @@ def execute(self):
     try:
         SAVEVARS = {i: j for i, j in VARS.items()}
         VARS.clear()
-        for i, j in zip(FUNCS[self.name].children[0].children, self.params.children):
+        for i, j in zip(FUNCS[self.name].children[0].children, self.children[0].children):
             VARS[i.tok] = {None: j.execute()}
         for c in FUNCS[self.name].children[1].children:
-            if c.type == 'RETURN':
+            if c.type == 'GIVE ME':
                 OUT = c.execute()
                 VARS.clear()
                 VARS.update(SAVEVARS)
