@@ -28,7 +28,7 @@ VAR_NAMES = (
     'DOGMATIC'
 )
 
-VAR_ACCESSORS =(
+VAR_ACCESSORS = (
     'DUSTY',
     'GLOOMY',
     'CHARMING',
@@ -73,7 +73,7 @@ RESERVED_WORDS = (
     # 'SOMEWAY',
     # 'SOMETIMES',
     # 'SOMEHOW',
-    # 'SOMEPLACE',
+    'SOMEPLACE',
     'IS',
     # 'COULD',
     # 'BE',
@@ -85,6 +85,7 @@ tokens = (
     # 'SEMICOLON',
     'LINEBREAK',
     'VAR',
+    'ACCESSOR',
     'FUNC',
     'SOMEFUNC',
     'RETURN',
