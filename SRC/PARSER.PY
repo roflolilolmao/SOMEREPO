@@ -94,8 +94,8 @@ def p_PRINT(P):
 
 def p_EXPRESSION_NUM(P):
     """EXPRESSION : NUMBER
-    | SOMETHING VAR
-    | SOMETHING VAR SOMEPLACE ACCESSOR"""
+    | SOMETHING VAR SOMEPLACE ACCESSOR
+    | SOMETHING VAR"""
     if len(P) == 2:
         # NUMBER
         P[0] = TokenNode(P[1])
@@ -107,19 +107,19 @@ def p_EXPRESSION_NUM(P):
         P[0] = TokenNode(P[2], P[4])
 
 
-def p_EXPRESSION_FUNC(P):
-    """EXPRESSION : SOMEFUNC FUNC"""
-    P[0] = FunctionNode(P[2])
-
-
 def p_EXPRESSION_FUNC_PARAMS(P):
     """EXPRESSION : SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
     P[0] = FunctionNode(P[2], P[6])
 
 
+def p_EXPRESSION_FUNC(P):
+    """EXPRESSION : SOMEFUNC FUNC"""
+    P[0] = FunctionNode(P[2])
+
+
 def p_EXPRESSION_BOOLEAN(P):
     """EXPRESSION : SOMEWHAT BOOLEAN"""
-    if P[2] == "REAL":
+    if P[2][:2] != 'UN':
         P[0] = TokenNode(True)
     else:
         P[0] = TokenNode(False)

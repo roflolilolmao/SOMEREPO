@@ -84,10 +84,13 @@ def execute(self):
 
 @addToClass(AST.PrintNode)
 def execute(self):
+    VALUE = self.children[0].execute()
     if self.text:
-        print(chr(self.children[0].execute()), end='')
+        print(chr(VALUE), end='')
     else:
-        print(self.children[0].execute(), end='')
+        if isinstance(VALUE, bool):
+            VALUE = 'YEA' if VALUE else 'NAY'
+        print(VALUE, end='')
 
 
 @addToClass(AST.WhileNode)
