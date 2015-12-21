@@ -75,7 +75,7 @@ def execute(self):
 @addToClass(AST.PrintNode)
 def execute(self):
     if len(self.children) > 1:
-        print(self.children[0].execute()[self.children[1].execute()])
+        print(self.children[0].execute()[self.children[1].tok])
     else:
         print(self.children[0].execute()[None])
 
