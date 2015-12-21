@@ -106,23 +106,30 @@ class ProgramNode(Node):
 class DeclareFunctionNode(Node):
     type = 'DECLFUNCTION'
 
-    def __init__(self, name, child, args=None):
+    def __init__(self, name, child, params=None):
         Node.__init__(self, child.children)
         self.name = name
         self.child = child
-        self.args = args
+        self.params = params
 
     def __repr__(self):
         return 'DECLARE {}'.format(self.name)
 
 
+class ParamsNode(Node):
+    type = 'PARAMS'
+
+    def __init__(self, children):
+        Node.__init__(self, children)
+
+
 class FunctionNode(Node):
     type = 'FUNCTION'
 
-    def __init__(self, name, args=None):
+    def __init__(self, name, params=None):
         Node.__init__(self)
         self.name = name
-        self.args = args
+        self.params = params
 
     def __repr__(self):
         return 'FUNC {}'.format(self.name)

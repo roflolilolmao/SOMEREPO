@@ -25,16 +25,23 @@ def execute(self):
 
 @addToClass(AST.DeclareFunctionNode)
 def execute(self):
-    FUNCS[self.name] = self.children
+    FUNCS[self.name] = self
 
 
 @addToClass(AST.FunctionNode)
 def execute(self):
     try:
-        for c in FUNCS[self.name]:
+        params = FUNCS[self.name].params
+        SCOPEDVARS = {i.tok: j.tok for i, j in zip(params.children, self.params.children)}
+        SAVEVARS = {i: j for i, j in VARS.items()}
+        VARS.__init__(SCOPEDVARS)
+        for c in FUNCS[self.name].children:
             if c.type == 'RETURN':
-                return c.execute()
+                OUT = c.execute()
+                VARS.__init__(SAVEVARS)
+                return OUT
             c.execute()
+        VARS.__init__(SAVEVARS)
     except KeyError:
         print("*** ERROR: FUNC {} NOT DEFINED!".format(self.name))
 
@@ -69,7 +76,7 @@ def execute(self):
 
 @addToClass(AST.PrintNode)
 def execute(self):
-    print(self.children[0].execute())
+    print(self.children[0].execute(), end='')
 
 
 @addToClass(AST.WhileNode)

@@ -58,11 +58,13 @@ RESERVED_WORDS = (
     'IS',
     # 'COULD',
     # 'BE',
+    'WITH'
 )
 
 tokens = (
     'DOT',
-    # 'COMMA',
+    'COMMA',
+    'COLON',
     # 'SEMICOLON',
     'LINEBREAK',
     'VAR',
@@ -73,14 +75,16 @@ tokens = (
     'ADD_OP',
     'MUL_OP',
     'DISPLAY_VAR',
+    'DECLARE_FUNC',
+    'FUNC_PARAMS',
     # 'WORDS'
 ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS))
 
 t_DOT = r'\.'
-# t_COMMA = r','
+t_COMMA = r','
+t_COLON = r':'
 # t_SEMICOLON = r';'
 t_LINEBREAK = r'\n'
-# t_SOMEFUNC = r'SOMEONE|SOMEBODY'
 
 # ===============================================================================
 #
@@ -106,6 +110,16 @@ def t_MUL_OP(T):
 
 def t_DISPLAY_VAR(T):
     r"""SHOW\ ME"""
+    return T
+
+
+def t_DECLARE_FUNC(T):
+    r"""HERE\'S"""
+    return T
+
+
+def t_FUNC_PARAMS(T):
+    r"""DO\ THE\ THING\ WITH\ ((THAT\ ONE)|(THOSE\ ONES))"""
     return T
 
 

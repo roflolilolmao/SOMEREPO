@@ -31,8 +31,23 @@ def p_PROGRAM_FUNCTION(P):
 # ========== FUNCTIONS ==========
 
 def p_FUNC_DECL(P):
-    """FUNCTION : SOMEFUNC FUNC IS FUNCBODY LINEBREAK"""
-    P[0] = DeclareFunctionNode(P[2], P[4])
+    """FUNCTION : DECLARE_FUNC SOMEFUNC FUNC COLON FUNCBODY LINEBREAK"""
+    P[0] = DeclareFunctionNode(P[3], P[5])
+
+
+def p_PARAMS(P):
+    """PARAMS : EXPRESSION"""
+    P[0] = ParamsNode([P[1]])
+
+
+def p_PARAMS_REC(P):
+    """PARAMS : EXPRESSION COMMA PARAMS"""
+    P[0] = ParamsNode([P[1]] + P[3].children)
+
+
+def p_FUNC_DECL_ARGS(P):
+    """FUNCTION : DECLARE_FUNC SOMEFUNC FUNC WITH PARAMS COLON FUNCBODY LINEBREAK"""
+    P[0] = DeclareFunctionNode(P[3], P[7], P[5])
 
 
 def p_FUNCBODY(P):
@@ -82,6 +97,11 @@ def p_EXPRESSION_NUM(P):
 def p_EXPRESSION_FUNC(P):
     """EXPRESSION : SOMEFUNC FUNC"""
     P[0] = FunctionNode(P[2])
+
+
+def p_EXPRESSION_FUNC_PARAMS(P):
+    """EXPRESSION : SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
+    P[0] = FunctionNode(P[2], P[6])
 
 
 def p_EXPRESSION_OP(P):
