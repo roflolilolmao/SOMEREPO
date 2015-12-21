@@ -53,6 +53,7 @@ def execute(self):
 
 @addToClass(AST.TokenNode)
 def execute(self):
+    print(VARS)
     if isinstance(self.tok, str):
         try:
             return VARS[self.tok][self.accessor]
