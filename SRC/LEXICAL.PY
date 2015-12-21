@@ -105,7 +105,7 @@ def t_MUL_OP(T):
 
 
 def t_DISPLAY_VAR(T):
-    r"""SHOW\ ME\ WHAT\ IS"""
+    r"""SHOW\ ME"""
     return T
 
 
