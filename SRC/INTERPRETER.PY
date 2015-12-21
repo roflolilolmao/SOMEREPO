@@ -53,11 +53,12 @@ def execute(self):
 
 @addToClass(AST.TokenNode)
 def execute(self):
+    print(VARS)
     if isinstance(self.tok, str):
         try:
             return VARS[self.tok][self.accessor]
         except KeyError:
-            print("*** ERROR: VAR {} NOT DEFINED!".format(self.tok))
+            print("*** ERROR: VAR {}.{} NOT DEFINED!".format(self.tok, self.accessor))
     return self.tok
 
 
@@ -73,10 +74,8 @@ def execute(self):
 def execute(self):
     if self.children[0].tok not in VARS:
         VARS[self.children[0].tok] = dict()
-    if len(self.children) == 3:
-        VARS[self.children[0].tok][self.children[1].tok] = self.children[2].execute()
-    else:
-        VARS[self.children[0].tok][None] = self.children[1].execute()
+    VARS[self.children[0].tok][self.children[0].accessor] = self.children[1].execute()
+
 
 
 @addToClass(AST.PrintNode)
