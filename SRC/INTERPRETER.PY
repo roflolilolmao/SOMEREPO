@@ -85,6 +85,8 @@ def execute(self):
 @addToClass(AST.PrintNode)
 def execute(self):
     VALUE = self.children[0].execute()
+    if isinstance(VALUE, dict):
+        VALUE = VALUE[None]
     if self.text:
         print(chr(VALUE), end='')
     else:

@@ -160,9 +160,9 @@ if __name__ == "__main__":
     PROG = open(sys.argv[1]).read()
     RESULT = PARSE(PROG)
     print('RESULT: {}'.format(RESULT))
-    import os
-
-    GRAPH = RESULT.makegraphicaltree()
-    NAME = os.path.splitext(sys.argv[1])[0] + '-ast.pdf'
-    GRAPH.write_pdf(NAME)
-    print("WROTE AST TO ", NAME)
+    # import os
+    #
+    # GRAPH = RESULT.makegraphicaltree()
+    # NAME = os.path.splitext(sys.argv[1])[0] + '-ast.pdf'
+    # GRAPH.write_pdf(NAME)
+    # print("WROTE AST TO ", NAME)
