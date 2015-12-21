@@ -164,7 +164,7 @@ class AssignNode(Node):
 
 
 class PrintNode(Node):
-    type = 'SHOW ME WHAT IS'
+    type = 'SHOW ME'
 
 
 class WhileNode(Node):
