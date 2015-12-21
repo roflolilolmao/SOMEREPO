@@ -103,7 +103,7 @@ def p_EXPRESSION_NUM(P):
         P[0] = TokenNode(P[2])
     else:  # len(P) == 5:
         # SOMETHING VAR SOMEPLACE ACCESSOR
-        P[0] = [TokenNode(P[2], P[4])]
+        P[0] = TokenNode(P[2], P[4])
 
 
 def p_EXPRESSION_FUNC(P):
@@ -114,6 +114,14 @@ def p_EXPRESSION_FUNC(P):
 def p_EXPRESSION_FUNC_PARAMS(P):
     """EXPRESSION : SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
     P[0] = FunctionNode(P[2], P[6])
+
+
+def p_EXPRESSION_BOOLEAN(P):
+    """EXPRESSION : SOMEWHAT BOOLEAN"""
+    if P[2] == "REAL":
+        P[0] = TokenNode(True)
+    else:
+        P[0] = TokenNode(False)
 
 
 def p_EXPRESSION_OP(P):
