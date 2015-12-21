@@ -64,7 +64,12 @@ def execute(self):
 
 @addToClass(AST.AssignNode)
 def execute(self):
-    VARS[self.children[0].tok] = self.children[1].execute()
+    if self.children[0].tok not in VARS:
+        VARS[self.children[0].tok] = dict()
+    if len(self.children) == 3:
+        VARS[self.children[0].tok][self.children[1].tok] = self.children[2].execute()
+    else:
+        VARS[self.children[0].tok][None] = self.children[1].execute()
 
 
 @addToClass(AST.PrintNode)

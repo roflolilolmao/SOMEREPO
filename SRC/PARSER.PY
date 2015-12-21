@@ -59,8 +59,15 @@ def p_STATEMENT_EXP(P):
 
 
 def p_ASSIGNEMENT(P):
-    """ASSIGNMENT : SOMETHING VAR IS EXPRESSION"""
-    P[0] = AssignNode([TokenNode(P[2]), P[4]])
+    """ASSIGNMENT : SOMETHING VAR IS EXPRESSION
+    | SOMETHING VAR SOMEPLACE ACCESSOR IS EXPRESSION"""
+    if(len(P) > 5):
+        # SOMETHING VAR SOMEPLACE ACCESSOR IS EXPRESSION
+
+        P[0] = AssignNode([TokenNode(P[2]), TokenNode(P[4]), P[6]])
+    else:
+        # SOMETHING VAR IS EXPRESSION
+        P[0] = AssignNode([TokenNode(P[2]), P[4]])
 
 
 def p_PRINT(P):
