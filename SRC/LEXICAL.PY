@@ -69,8 +69,8 @@ FUNC_NAMES = (
 
 RESERVED_WORDS = (
     'SOMETHING',
-    # 'SOMEWHAT',
-    # 'SOMEWAY',
+    'SOMEWHAT',
+    'SOMEWAY',
     # 'SOMETIMES',
     # 'SOMEHOW',
     'SOMEPLACE',
@@ -91,6 +91,7 @@ tokens = (
     'FUNC',
     'SOMEFUNC',
     'RETURN',
+    'BOOLEAN',
     'NUMBER',
     'ADD_OP',
     'MUL_OP',
@@ -125,6 +126,11 @@ def t_ADD_OP(T):
 
 def t_MUL_OP(T):
     r"""BY|OUT\ OF"""
+    return T
+
+
+def t_BOOLEAN(T):
+    r"""REAL|UNREAL"""
     return T
 
 
