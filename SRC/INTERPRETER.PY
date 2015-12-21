@@ -18,6 +18,8 @@ FUNCS = {}
 @addToClass(AST.ProgramNode)
 def execute(self):
     for c in self.children:
+        if c.type == 'RETURN':
+            return c.execute()
         c.execute()
 
 

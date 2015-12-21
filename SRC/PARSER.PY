@@ -40,17 +40,17 @@ def p_FUNCBODY(P):
     P[0] = ProgramNode([P[1]])
 
 
-def p_FUNCBODY_RETURN(P):
-    """FUNCBODY : RETURN EXPRESSION DOT"""
-    P[0] = ProgramNode([ReturnNode(P[2])])
-
-
 def p_FUNCBODY_REC(P):
     """FUNCBODY : STATEMENT DOT FUNCBODY"""
     P[0] = ProgramNode([P[1]] + P[3].children)
 
 
 # ========== STATEMENTS ==========
+
+def p_STATEMENT_RETURN(P):
+    """STATEMENT : RETURN EXPRESSION"""
+    P[0] = ReturnNode(P[2])
+
 
 def p_STATEMENT_EXP(P):
     """STATEMENT : ASSIGNMENT
