@@ -162,12 +162,6 @@ def PARSE(PROGRAM):
 if __name__ == "__main__":
     import sys
 
-    PROG = open(sys.argv[1]).read()
-    RESULT = PARSE(PROG)
+    with open(sys.argv[1]) as PROG:
+        RESULT = PARSE(PROG.read())
     print('RESULT: {}'.format(RESULT))
-    # import os
-    #
-    # GRAPH = RESULT.makegraphicaltree()
-    # NAME = os.path.splitext(sys.argv[1])[0] + '-ast.pdf'
-    # GRAPH.write_pdf(NAME)
-    # print("WROTE AST TO ", NAME)

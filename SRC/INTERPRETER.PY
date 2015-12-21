@@ -108,7 +108,7 @@ def execute(self):
 if __name__ == '__main__':
     from PARSER import PARSE
     import sys
-    PROG = open(sys.argv[1]).read()
-    AST = PARSE(PROG)
 
+    with open(sys.argv[1]) as PROG:
+        AST = PARSE(PROG.read())
     AST.execute()

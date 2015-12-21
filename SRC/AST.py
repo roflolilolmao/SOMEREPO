@@ -114,10 +114,6 @@ class DeclareFunctionNode(Node):
         return 'DECLARE {}'.format(self.name)
 
 
-class ParamsNode(Node):
-    type = 'PARAMS'
-
-
 class FunctionNode(Node):
     type = 'FUNCTION'
 
@@ -129,8 +125,8 @@ class FunctionNode(Node):
         return 'FUNC {}'.format(self.name)
 
 
-class ReturnNode(Node):
-    type = 'GIVE ME'
+class ParamsNode(Node):
+    type = 'PARAMS'
 
 
 class TokenNode(Node):
@@ -142,7 +138,7 @@ class TokenNode(Node):
         self.accessor = accessor
 
     def __repr__(self):
-        return repr(self.tok)
+        return '{}.{}'.format(self.tok, self.accessor)
 
 
 class OpNode(Node):
@@ -155,11 +151,15 @@ class OpNode(Node):
             self.nbargs = 1
         
     def __repr__(self):
-        return "%s (%s)" % (self.op, self.nbargs)
+        return "{} ({})".format(self.op, self.nbargs)
 
 
 class AssignNode(Node):
     type = 'IS'
+
+
+class ReturnNode(Node):
+    type = 'GIVE ME'
 
 
 class AsciiNode(Node):
@@ -172,13 +172,6 @@ class PrintNode(Node):
 
 class WhileNode(Node):
     type = 'while'
-
-
-class EntryNode(Node):
-    type = 'ENTRY'
-
-    def __init__(self):
-        Node.__init__(self, None)
 
 
 def addToClass(cls):
