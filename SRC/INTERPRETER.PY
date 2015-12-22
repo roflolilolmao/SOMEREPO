@@ -24,9 +24,9 @@ FUNCS = {}
 @addToClass(AST.ProgramNode)
 def execute(self):
     for c in self.children:
-        if c.type == 'GIVE ME':
-            return c.execute()
-        c.execute()
+        OUT = c.execute()
+        if OUT:
+            return OUT
 
 
 @addToClass(AST.DeclareFunctionNode)
@@ -44,12 +44,11 @@ def execute(self):
         VARS.clear()
         VARS.update(NEWVARS)
         for c in FUNCS[self.name].children[1].children:
-            if c.type == 'GIVE ME':
-                OUT = c.execute()
+            OUT = c.execute()
+            if OUT:
                 VARS.clear()
                 VARS.update(SAVEVARS)
                 return OUT
-            c.execute()
         VARS.clear()
         VARS.update(SAVEVARS)
     except KeyError:
@@ -62,7 +61,7 @@ def execute(self):
 def execute(self):
     try:
         return VARS[self.children[0].tok]
-    except KeyError:
+    except:
         return self.children[0].execute()
 
 
@@ -134,9 +133,9 @@ def execute(self):
 @addToClass(AST.SomehowNode)
 def execute(self):
     if self.children[0].execute():
-        self.children[1].execute()
+        return self.children[1].execute()
     else:
-        self.children[2].execute()
+        return self.children[2].execute()
 
 
 if __name__ == '__main__':
