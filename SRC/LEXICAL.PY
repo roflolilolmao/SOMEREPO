@@ -101,6 +101,7 @@ tokens = (
     'WHILE',
     'ASCII',
     'SOMOFIT',
+    'END_WHILE',
     'BUT'
     # 'WORDS'
 ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS))
@@ -130,6 +131,11 @@ def t_SOMEHOW(T):
 
 def t_WHILE(T):
     r"""FOR\ SOMETIMES,"""
+    return T
+
+
+def t_END_WHILE(T):
+    r"""THIS\ KEPT\ GOING\ ON"""
     return T
 
 

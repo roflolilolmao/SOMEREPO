@@ -108,7 +108,7 @@ def p_IF(P):
 
 
 def p_WHILE(P):
-    """BLOCK : WHILE EXPRESSION COLON PROGRAM SOMOFIT"""
+    """BLOCK : WHILE EXPRESSION COLON PROGRAM END_WHILE"""
     P[0] = WhileNode([P[2], P[4]])
 
 
