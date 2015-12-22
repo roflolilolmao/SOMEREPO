@@ -212,9 +212,9 @@ LEX.lex()
 
 if __name__ == "__main__":
     import sys
-    PROG = open(sys.argv[1]).read()
 
-    LEX.input(PROG)
+    with open(sys.argv[1]) as PROG:
+        LEX.input(PROG.read())
 
     while 1:
         TOKEN = LEX.token()

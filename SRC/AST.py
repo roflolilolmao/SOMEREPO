@@ -106,40 +106,27 @@ class ProgramNode(Node):
 class DeclareFunctionNode(Node):
     type = 'DECLFUNCTION'
 
-    def __init__(self, name, child, params=None):
-        Node.__init__(self, child.children)
+    def __init__(self, name, children):
+        Node.__init__(self, children)
         self.name = name
-        self.child = child
-        self.params = params
 
     def __repr__(self):
         return 'DECLARE {}'.format(self.name)
 
 
-class ParamsNode(Node):
-    type = 'PARAMS'
-
-    def __init__(self, children):
-        Node.__init__(self, children)
-
-
 class FunctionNode(Node):
     type = 'FUNCTION'
 
-    def __init__(self, name, params=None):
-        Node.__init__(self)
+    def __init__(self, name, children):
+        Node.__init__(self, children)
         self.name = name
-        self.params = params
 
     def __repr__(self):
         return 'FUNC {}'.format(self.name)
 
 
-class ReturnNode(Node):
-    type = 'RETURN'
-
-    def __init__(self, expression):
-        Node.__init__(self, [expression])
+class ParamsNode(Node):
+    type = 'PARAMS'
 
 
 class TokenNode(Node):
@@ -151,7 +138,7 @@ class TokenNode(Node):
         self.accessor = accessor
 
     def __repr__(self):
-        return repr(self.tok)
+        return '{}.{}'.format(self.tok, self.accessor)
 
 
 class OpNode(Node):
@@ -164,7 +151,7 @@ class OpNode(Node):
             self.nbargs = 1
         
     def __repr__(self):
-        return "%s (%s)" % (self.op, self.nbargs)
+        return "{} ({})".format(self.op, self.nbargs)
 
 
 class ExistenceNode(Node):
@@ -183,23 +170,20 @@ class AssignNode(Node):
     type = 'IS'
 
 
+class ReturnNode(Node):
+    type = 'GIVE ME'
+
+
+class AsciiNode(Node):
+    type = 'ASCII'
+
+
 class PrintNode(Node):
     type = 'SHOW ME'
-
-    def __init__(self, children, text):
-        Node.__init__(self, children)
-        self.text = text
 
 
 class WhileNode(Node):
     type = 'while'
-
-
-class EntryNode(Node):
-    type = 'ENTRY'
-
-    def __init__(self):
-        Node.__init__(self, None)
 
 
 def addToClass(cls):

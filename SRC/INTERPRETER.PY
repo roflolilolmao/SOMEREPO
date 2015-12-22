@@ -18,7 +18,7 @@ FUNCS = {}
 @addToClass(AST.ProgramNode)
 def execute(self):
     for c in self.children:
-        if c.type == 'RETURN':
+        if c.type == 'GIVE ME':
             return c.execute()
         c.execute()
 
@@ -33,10 +33,10 @@ def execute(self):
     try:
         SAVEVARS = {i: j for i, j in VARS.items()}
         VARS.clear()
-        for i, j in zip(FUNCS[self.name].params.children, self.params.children):
+        for i, j in zip(FUNCS[self.name].children[0].children, self.children[0].children):
             VARS[i.tok] = {None: j.execute()}
-        for c in FUNCS[self.name].children:
-            if c.type == 'RETURN':
+        for c in FUNCS[self.name].children[1].children:
+            if c.type == 'GIVE ME':
                 OUT = c.execute()
                 VARS.clear()
                 VARS.update(SAVEVARS)
@@ -46,11 +46,13 @@ def execute(self):
         VARS.update(SAVEVARS)
     except KeyError:
         print("*** ERROR: FUNC {} NOT DEFINED!".format(self.name))
+        print(self.name)
+        print(FUNCS)
 
 
 @addToClass(AST.ReturnNode)
 def execute(self):
-    return VARS[self.children[0].tok]
+    return self.children[0].execute()
 
 
 @addToClass(AST.ExistenceNode)
@@ -96,12 +98,19 @@ def execute(self):
         VARS[self.children[0].tok][self.children[0].accessor] = VALUE
 
 
+@addToClass(AST.AsciiNode)
+def execute(self):
+    return chr(self.children[0].execute())
+
+
 @addToClass(AST.PrintNode)
 def execute(self):
-    if self.text:
-        print(chr(self.children[0].execute()), end='')
-    else:
-        print(self.children[0].execute(), end='')
+    VALUE = self.children[0].execute()
+    if isinstance(VALUE, dict):
+        VALUE = VALUE[None]
+    if isinstance(VALUE, bool):
+        VALUE = 'YEA' if VALUE else 'NAY'
+    print(VALUE, end='')
 
 
 @addToClass(AST.WhileNode)
@@ -113,7 +122,7 @@ def execute(self):
 if __name__ == '__main__':
     from PARSER import PARSE
     import sys
-    PROG = open(sys.argv[1]).read()
-    AST = PARSE(PROG)
 
+    with open(sys.argv[1]) as PROG:
+        AST = PARSE(PROG.read())
     AST.execute()
