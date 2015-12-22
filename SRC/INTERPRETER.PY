@@ -131,6 +131,14 @@ def execute(self):
         self.children[1].execute()
 
 
+@addToClass(AST.SomehowNode)
+def execute(self):
+    if self.children[0].execute():
+        self.children[1].execute()
+    else:
+        self.children[2].execute()
+
+
 if __name__ == '__main__':
     from PARSER import PARSE
     import sys

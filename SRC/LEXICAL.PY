@@ -72,7 +72,6 @@ RESERVED_WORDS = (
     'SOMEWHAT',
     'SOMEWAY',
     # 'SOMETIMES',
-    'SOMEHOW',
     'SOMEPLACE',
     'IS',
     'WITH'
@@ -98,6 +97,7 @@ tokens = (
     'DISPLAY_VAR',
     'DECLARE_FUNC',
     'FUNC_PARAMS',
+    'SOMEHOW',
     'ASCII',
     'SOMOFIT',
     'BUT'
@@ -122,8 +122,13 @@ def t_BUT(T):
     return T
 
 
+def t_SOMEHOW(T):
+    r"""SOMEHOW,"""
+    return T
+
+
 def t_SOMOFIT(T):
-    r"""SOME\ OF\ IT\ IS\ REAL."""
+    r"""SOME\ OF\ IT\ IS\ REAL"""
     return T
 
 

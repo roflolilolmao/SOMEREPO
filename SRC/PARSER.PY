@@ -69,7 +69,8 @@ def p_STATEMENT_RETURN(P):
 
 def p_STATEMENT_EXP(P):
     """STATEMENT : ASSIGNMENT
-    | PRINT"""
+    | PRINT
+    | BLOCK"""
     P[0] = P[1]
 
 
@@ -91,6 +92,14 @@ def p_PRINT(P):
 
 # ========== BLOCKS ==========
 
+def p_IF_BUT(P):
+    """BLOCK : SOMEHOW EXPRESSION COLON PROGRAM BUT PROGRAM SOMOFIT"""
+    P[0] = SomehowNode([P[2], P[4], P[6]])
+
+
+def p_IF(P):
+    """BLOCK : SOMEHOW EXPRESSION COLON PROGRAM SOMOFIT"""
+    P[0] = SomehowNode([P[2], P[4], ProgramNode([])])
 
 
 # ========== EXPRESSIONS ==========

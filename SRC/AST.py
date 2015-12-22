@@ -175,6 +175,10 @@ class ExistenceNode(Node):
         return "ExistenceNode : {}".format(self.children)
 
 
+class SomehowNode(Node):
+    type = 'SOMEHOW'
+
+
 class AssignNode(Node):
     type = 'IS'
 
