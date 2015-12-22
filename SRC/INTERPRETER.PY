@@ -52,7 +52,7 @@ def execute(self):
 
 @addToClass(AST.ReturnNode)
 def execute(self):
-    return self.children[0].execute()
+    return VARS[self.children[0].tok]  # self.children[0].execute()
 
 
 @addToClass(AST.ExistenceNode)
@@ -62,11 +62,6 @@ def execute(self):
         if value == VARS[self.children[1]][key]:
             return True
     return False
-
-    # for k in VARS[self.var]:
-    #     if self.value.tok == VARS[self.var][k]:
-    #         return True
-    # return False
 
 
 @addToClass(AST.TokenNode)
