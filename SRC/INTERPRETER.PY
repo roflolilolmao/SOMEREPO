@@ -32,9 +32,11 @@ def execute(self):
 def execute(self):
     try:
         SAVEVARS = {i: j for i, j in VARS.items()}
-        VARS.clear()
+        NEWVARS = {}
         for i, j in zip(FUNCS[self.name].children[0].children, self.children[0].children):
-            VARS[i.tok] = {None: j.execute()}
+            NEWVARS[i.tok] = {None: j.execute()}
+        VARS.clear()
+        VARS.update(NEWVARS)
         for c in FUNCS[self.name].children[1].children:
             if c.type == 'GIVE ME':
                 OUT = c.execute()
@@ -71,6 +73,7 @@ def execute(self):
             return VARS[self.tok][self.accessor]
         except KeyError:
             print("*** ERROR: VAR {}.{} NOT DEFINED!".format(self.tok, self.accessor))
+            print(VARS, FUNCS)
     return self.tok
 
 
