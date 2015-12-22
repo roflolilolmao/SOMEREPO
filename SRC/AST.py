@@ -129,6 +129,16 @@ class ParamsNode(Node):
     type = 'PARAMS'
 
 
+class MapNode(Node):
+    type = 'MAP'
+
+    def __init__(self, children):
+        Node.__init__(self, children)
+
+    def __repr__(self):
+        return 'MAP {} {}'.format(self.children[0], self.children[1])
+
+
 class TokenNode(Node):
     type = 'TOKEN'
 

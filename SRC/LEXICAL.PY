@@ -73,7 +73,8 @@ RESERVED_WORDS = (
     # 'SOMEWAY',
     'SOMEPLACE',
     'IS',
-    'WITH'
+    'WITH',
+    'EXPLORE'
 )
 
 tokens = (

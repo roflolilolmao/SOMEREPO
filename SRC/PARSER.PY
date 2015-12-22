@@ -60,6 +60,11 @@ def p_FUNCBODY_REC(P):
     P[0] = ProgramNode([P[1]] + P[3].children)
 
 
+def p_MAP(P):
+    """STATEMENT : EXPLORE SOMETHING VAR WITH SOMEFUNC FUNC"""
+    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([]))])
+
+
 # ========== STATEMENTS ==========
 
 def p_STATEMENT_RETURN(P):

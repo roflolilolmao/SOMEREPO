@@ -1,5 +1,5 @@
 import AST
-from AST import addToClass
+from AST import *
 from functools import reduce
 
 __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
@@ -82,6 +82,7 @@ def execute(self):
         except KeyError:
             print("*** ERROR: VAR {}.{} NOT DEFINED!".format(self.tok, self.accessor))
             print(VARS, FUNCS)
+            print('\n')
     return self.tok
 
 
@@ -128,6 +129,15 @@ def execute(self):
 def execute(self):
     while self.children[0].execute():
         self.children[1].execute()
+
+
+@addToClass(AST.MapNode)
+def execute(self):
+    for c in VARS[self.children[0]].keys():
+        self.children[1].children[0] = ParamsNode([TokenNode(self.children[0], c)])
+        OUT = self.children[1].execute()
+        if OUT:
+            VARS[self.children[0]][c] = OUT
 
 
 @addToClass(AST.SomehowNode)
