@@ -158,12 +158,10 @@ class ExistenceNode(Node):
     type = "EXISTENCE"
 
     def __init__(self, value, var):
-        Node.__init__(self)
-        self.value = value
-        self.var = var
+        Node.__init__(self, [value, var])
 
     def __repr__(self):
-        return "ExistenceNode : {}, {}".format(self.value, self.var)
+        return "ExistenceNode : {}".format(self.children)
 
 
 class AssignNode(Node):

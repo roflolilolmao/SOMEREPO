@@ -57,16 +57,16 @@ def execute(self):
 
 @addToClass(AST.ExistenceNode)
 def execute(self):
-    if self.value.type == "TOKEN":
-        for k in VARS[self.var]:
-            if VARS[self.value.tok][self.value.accessor] == VARS[self.var][k]:
-                return True
-        return False
-    else:
-        for k in VARS[self.var]:
-            if self.value.tok == VARS[self.var][k]:
-                return True
-        return False
+    value = self.children[0].execute()
+    for key in VARS[self.children[1]]:
+        if value == VARS[self.children[1]][key]:
+            return True
+    return False
+
+    # for k in VARS[self.var]:
+    #     if self.value.tok == VARS[self.var][k]:
+    #         return True
+    # return False
 
 
 @addToClass(AST.TokenNode)
