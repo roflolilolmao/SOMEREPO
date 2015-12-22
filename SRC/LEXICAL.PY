@@ -70,8 +70,7 @@ FUNC_NAMES = (
 RESERVED_WORDS = (
     'SOMETHING',
     'SOMEWHAT',
-    'SOMEWAY',
-    # 'SOMETIMES',
+    # 'SOMEWAY',
     'SOMEPLACE',
     'IS',
     'WITH'
@@ -98,6 +97,7 @@ tokens = (
     'DECLARE_FUNC',
     'FUNC_PARAMS',
     'SOMEHOW',
+    'WHILE',
     'ASCII',
     'SOMOFIT',
     'BUT'
@@ -124,6 +124,11 @@ def t_BUT(T):
 
 def t_SOMEHOW(T):
     r"""SOMEHOW,"""
+    return T
+
+
+def t_WHILE(T):
+    r"""FOR\ SOMETIMES,"""
     return T
 
 
