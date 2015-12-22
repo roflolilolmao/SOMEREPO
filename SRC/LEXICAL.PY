@@ -39,7 +39,7 @@ VAR_ACCESSORS = (
     'STORMY',
     'NOISY'
     'ANCIENT',
-    'DRY'
+    'DRY',
     'DESERTIC',
     'BUSTLING',
     'POLLUTED',
