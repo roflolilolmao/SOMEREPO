@@ -102,6 +102,11 @@ def p_IF(P):
     P[0] = SomehowNode([P[2], P[4], ProgramNode([])])
 
 
+def p_WHILE(P):
+    """BLOCK : WHILE EXPRESSION COLON PROGRAM SOMOFIT"""
+    P[0] = WhileNode([P[2], P[4]])
+
+
 # ========== EXPRESSIONS ==========
 
 def p_EXPRESSION_ASCII(P):
