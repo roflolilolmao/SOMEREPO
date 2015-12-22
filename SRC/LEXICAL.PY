@@ -92,6 +92,7 @@ tokens = (
     'SOMEFUNC',
     'RETURN',
     'BOOLEAN',
+    'EXISTS',
     'NUMBER',
     'ADD_OP',
     'MUL_OP',
@@ -132,6 +133,11 @@ def t_MUL_OP(T):
 
 def t_BOOLEAN(T):
     r"""REAL|UNREAL"""
+    return T
+
+
+def t_EXISTS(T):
+    r"""COULD\ BE"""
     return T
 
 

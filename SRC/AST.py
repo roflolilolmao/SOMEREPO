@@ -167,6 +167,18 @@ class OpNode(Node):
         return "%s (%s)" % (self.op, self.nbargs)
 
 
+class ExistenceNode(Node):
+    type = "EXISTENCE"
+
+    def __init__(self, value, var):
+        Node.__init__(self)
+        self.value = value
+        self.var = var
+
+    def __repr__(self):
+        return "ExistenceNode : {}, {}".format(self.value, self.var)
+
+
 class AssignNode(Node):
     type = 'IS'
 
