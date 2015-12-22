@@ -89,6 +89,10 @@ def p_PRINT(P):
     P[0] = PrintNode(P[2])
 
 
+# ========== BLOCKS ==========
+
+
+
 # ========== EXPRESSIONS ==========
 
 def p_EXPRESSION_ASCII(P):
@@ -134,6 +138,11 @@ def p_EXPRESSION_EXISTENCE(P):
     P[0] = ExistenceNode(P[1], P[3])
 
 
+def p_EXPRESSION_COMPARE(P):
+    """ EXPRESSION : EXPRESSION COMPARE_OP EXPRESSION"""
+    P[0] = CompareNode(P[2], [P[1], P[3]])
+
+
 def p_EXPRESSION_OP(P):
     """EXPRESSION : EXPRESSION ADD_OP EXPRESSION
     | EXPRESSION MUL_OP EXPRESSION"""
@@ -146,6 +155,7 @@ def p_error(P):
 
 
 precedence = (
+    ('left', 'COMPARE_OP'),
     ('left', 'ADD_OP'),
     ('left', 'MUL_OP'),
     ('left', 'ASCII'),

@@ -72,11 +72,9 @@ RESERVED_WORDS = (
     'SOMEWHAT',
     'SOMEWAY',
     # 'SOMETIMES',
-    # 'SOMEHOW',
+    'SOMEHOW',
     'SOMEPLACE',
     'IS',
-    # 'COULD',
-    # 'BE',
     'WITH'
 )
 
@@ -96,10 +94,13 @@ tokens = (
     'NUMBER',
     'ADD_OP',
     'MUL_OP',
+    'COMPARE_OP',
     'DISPLAY_VAR',
     'DECLARE_FUNC',
     'FUNC_PARAMS',
-    'ASCII'
+    'ASCII',
+    'SOMOFIT',
+    'BUT'
     # 'WORDS'
 ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS))
 
@@ -109,11 +110,21 @@ t_COLON = r':'
 # t_SEMICOLON = r';'
 t_LINEBREAK = r'\n'
 
+
 # ===============================================================================
 #
 #                                 PARSER ANALYSERS
 #
 # ===============================================================================
+
+def t_BUT(T):
+    r"""BUT:"""
+    return T
+
+
+def t_SOMOFIT(T):
+    r"""SOME\ OF\ IT\ IS\ REAL."""
+    return T
 
 
 def t_SOMEFUNC(T):
@@ -123,6 +134,12 @@ def t_SOMEFUNC(T):
 
 def t_ADD_OP(T):
     r"""PLUS|MINUS"""
+    return T
+
+
+def t_COMPARE_OP(T):
+    r"""(GREATER|SMALLER)\ THAN
+    | EQUAL\ TO"""
     return T
 
 
@@ -157,7 +174,7 @@ def t_DECLARE_FUNC(T):
 
 
 def t_FUNC_PARAMS(T):
-    r"""DO\ THE\ THING\ WITH\ ((THAT\ ONE)|(THOSE\ ONES))"""
+    r"""DO\ THE\ THING\ WITH\ (THAT\ ONE|THOSE\ ONES)"""
     return T
 
 

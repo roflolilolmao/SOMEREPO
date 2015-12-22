@@ -154,6 +154,17 @@ class OpNode(Node):
         return "{} ({})".format(self.op, self.nbargs)
 
 
+class CompareNode(Node):
+    type = "COMPARE"
+
+    def __init__(self, op, children):
+        Node.__init__(self, children)
+        self.op = op
+
+    def __repr__(self):
+        return '{}'.format(self.op)
+
+
 class ExistenceNode(Node):
     type = "EXISTENCE"
 

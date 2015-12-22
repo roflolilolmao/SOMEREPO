@@ -11,6 +11,12 @@ operations = {
     'OUT OF': lambda X, Y: X / Y
 }
 
+compare_operations = {
+    'GREATER THAN': lambda X, Y: X > Y,
+    'SMALLER THAN': lambda X, Y: X < Y,
+    'EQUAL TO': lambda X, Y: X == Y
+}
+
 VARS = {}
 FUNCS = {}
 
@@ -54,7 +60,10 @@ def execute(self):
 
 @addToClass(AST.ReturnNode)
 def execute(self):
-    return VARS[self.children[0].tok]  # self.children[0].execute()
+    try:
+        return VARS[self.children[0].tok]
+    except KeyError:
+        return self.children[0].execute()
 
 
 @addToClass(AST.ExistenceNode)
@@ -75,6 +84,11 @@ def execute(self):
             print("*** ERROR: VAR {}.{} NOT DEFINED!".format(self.tok, self.accessor))
             print(VARS, FUNCS)
     return self.tok
+
+
+@addToClass(AST.CompareNode)
+def execute(self):
+    return reduce(compare_operations[self.op], [c.execute() for c in self.children])
 
 
 @addToClass(AST.OpNode)
