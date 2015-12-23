@@ -61,8 +61,8 @@ def p_FUNCBODY_REC(P):
 
 
 def p_FUNC_PARAMS(P):
-    """FUNC_CALL : SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
-    P[0] = FunctionNode(P[2], [P[6]])
+    """FUNC_CALL : SOMEFUNC FUNC FUNC_PARAMS COLON PARAMS"""
+    P[0] = FunctionNode(P[2], [P[5]])
 
 
 def p_FUNC(P):
@@ -120,8 +120,8 @@ def p_MAP(P):
 
 
 def p_MAP_PARAMS(P):
-    """STATEMENT : EXPLORE SOMETHING VAR WITH SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
-    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([])), P[10]])
+    """STATEMENT : EXPLORE SOMETHING VAR WITH SOMEFUNC FUNC FUNC_PARAMS COLON PARAMS"""
+    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([])), P[9]])
 
 
 # ========== BLOCKS ==========
@@ -205,9 +205,16 @@ def p_EXPRESSION_COMPARE(P):
     P[0] = CompareNode(P[2], [P[1], P[3]])
 
 
+def p_EXPRESSION_NOT(P):
+    """ EXPRESSION : NOT EXPRESSION"""
+    P[0] = NotNode([P[2]])
+
+
 def p_EXPRESSION_OP(P):
     """EXPRESSION : EXPRESSION ADD_OP EXPRESSION
-    | EXPRESSION MUL_OP EXPRESSION"""
+    | EXPRESSION MUL_OP EXPRESSION
+    | EXPRESSION AND EXPRESSION
+    | EXPRESSION OR EXPRESSION"""
     P[0] = OpNode(P[2], [P[1], P[3]])
 
 
@@ -218,6 +225,9 @@ def p_error(P):
 
 precedence = (
     ('left', 'COMPARE_OP'),
+    ('left', 'OR'),
+    ('left', 'AND'),
+    ('left', 'NOT'),
     ('left', 'ADD_OP'),
     ('left', 'MUL_OP'),
     ('left', 'ASCII'),
@@ -233,7 +243,7 @@ YACC.yacc()
 
 
 def PARSE(PROGRAM):
-    return YACC.parse(PROGRAM)
+    return YACC.parse(REMOVECOMMENTS(PROGRAM))
 
 
 if __name__ == "__main__":

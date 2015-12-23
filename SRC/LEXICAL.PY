@@ -78,6 +78,9 @@ RESERVED_WORDS = (
     'CALL',
     'SEAT',
     'OF'
+    'AND',
+    'OR',
+    'NOT'
 )
 
 tokens = (
@@ -206,7 +209,7 @@ def t_DECLARE_FUNC(T):
 
 
 def t_FUNC_PARAMS(T):
-    r"""DO\ THE\ THING\ WITH\ (THAT\ ONE|THOSE\ ONES)"""
+    r""",\ DO\ THE\ THING\ WITH\ (THAT\ ONE|THOSE\ ONES)"""
     return T
 
 
@@ -225,6 +228,12 @@ def t_NUMBER(T):
         except ValueError:
             print('VALUE ERROR THIS IS NOT A NUMBER')
     return T
+
+
+def t_COMMENTS(T):
+    r"""\(.*\)"""
+    print(T)
+    pass
 
 
 # MUST BE AT THE END BECAUSE OUR OPERATORS AND OTHER COMPOSED IDENTIFIERS ARE WORD BASED
@@ -259,11 +268,27 @@ def t_error(T):
 LEX.lex()
 
 
+def REMOVECOMMENTS(s):
+    sp = ''
+    remove = 0
+    for c in s:
+        if c == '(':
+            remove += 1
+        if remove < 1:
+            sp += c
+        if c == ')':
+            remove -= 1 if remove > 0 else 0
+    return sp
+
+
 if __name__ == "__main__":
     import sys
 
     with open(sys.argv[1]) as PROG:
-        LEX.input(PROG.read())
+        RESULT = PROG.read()
+
+    RESULT = REMOVECOMMENTS(RESULT)
+    LEX.input(RESULT)
 
     while 1:
         TOKEN = LEX.token()
