@@ -146,7 +146,7 @@ class ListNode(Node):
         Node.__init__(self, children)
 
     def __repr__(self):
-        return "LIST : {} ; {}".format(self.children[0], self.children[1])
+        return "LIST : {}".format(self.children[0])
 
 
 class TokenNode(Node):

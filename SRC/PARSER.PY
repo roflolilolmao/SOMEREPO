@@ -187,9 +187,13 @@ def p_EXPRESSION_BOOLEAN(P):
 
 
 def p_EXPRESSION_LIST(P):
-    """EXPRESSION : SEAT EXPRESSION OF SOMETHING VAR"""
+    """EXPRESSION : SEAT EXPRESSION OF SOMETHING VAR
+    | SOMETHING VAR LIST_ACCESSOR"""
     # SEAT EXPRESSION OF SOMETHING VAR
-    P[0] = ListNode([P[4], P[2]])
+    if len(P) == 6:
+        P[0] = ListNode([P[5], P[2]])
+    else:
+        P[0] = ListNode([P[2]])
 
 def p_EXPRESSION_EXISTENCE(P):
     """ EXPRESSION : EXPRESSION EXISTS VAR"""

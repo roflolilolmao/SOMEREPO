@@ -119,7 +119,12 @@ def execute(self):
     else:
         VARS[self.children[0].tok][self.children[0].accessor] = VALUE
 
-    print(VARS)
+
+@addToClass(AST.ListNode)
+def execute(self):
+    if len(self.children) == 1:
+        return VARS[self.children[0]][ORDERED]
+    return VARS[self.children[0]][ORDERED][self.children[1].execute()]
 
 
 @addToClass(AST.AsciiNode)
@@ -129,11 +134,14 @@ def execute(self):
 
 @addToClass(AST.PrintNode)
 def execute(self):
+
     VALUE = self.children[0].execute()
+
     if isinstance(VALUE, dict):
         VALUE = VALUE[None]
     if isinstance(VALUE, bool):
         VALUE = 'YEA' if VALUE else 'NAY'
+
     print(VALUE, end='')
 
 
