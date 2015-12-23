@@ -77,7 +77,7 @@ RESERVED_WORDS = (
     'EXPLORE',
     'CALL',
     'SEAT',
-    'OF'
+    'OF',
     'AND',
     'OR',
     'NOT'
