@@ -76,6 +76,8 @@ RESERVED_WORDS = (
     'WITH',
     'EXPLORE',
     'CALL',
+    'SEAT',
+    'OF',
     'AND',
     'OR',
     'NOT'
@@ -89,6 +91,8 @@ tokens = (
     'LINEBREAK',
     'VAR',
     'ACCESSOR',
+    'LIST_ACCESSOR',
+    'LIST_SETTER',
     'FUNC',
     'SOMEFUNC',
     'RETURN',
@@ -105,6 +109,7 @@ tokens = (
     'WHILE',
     'ASCII',
     'SOMOFIT',
+    'END_WHILE',
     'BUT'
     # 'WORDS'
 ) + tuple(map(lambda S: S.upper(), RESERVED_WORDS))
@@ -137,6 +142,11 @@ def t_WHILE(T):
     return T
 
 
+def t_END_WHILE(T):
+    r"""THIS\ KEPT\ GOING\ ON"""
+    return T
+
+
 def t_SOMOFIT(T):
     r"""SOME\ OF\ IT\ IS\ REAL"""
     return T
@@ -160,6 +170,16 @@ def t_COMPARE_OP(T):
 
 def t_MUL_OP(T):
     r"""BY|OUT\ OF"""
+    return T
+
+
+def t_LIST_ACCESSOR(T):
+    r"""SOMEWHERE\ ORDERED"""
+    return T
+
+
+def t_LIST_SETTER(T):
+    r"""IS\ RESPECTIVELY"""
     return T
 
 
