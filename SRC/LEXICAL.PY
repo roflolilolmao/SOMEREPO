@@ -74,7 +74,8 @@ RESERVED_WORDS = (
     'SOMEPLACE',
     'IS',
     'WITH',
-    'EXPLORE'
+    'EXPLORE',
+    'CALL'
 )
 
 tokens = (

@@ -134,7 +134,7 @@ def execute(self):
 @addToClass(AST.MapNode)
 def execute(self):
     for c in VARS[self.children[0]].keys():
-        self.children[1].children[0] = ParamsNode([TokenNode(self.children[0], c)])
+        self.children[1].children[0] = ParamsNode([TokenNode(self.children[0], c)] + self.children[2].children)
         OUT = self.children[1].execute()
         if OUT:
             VARS[self.children[0]][c] = OUT

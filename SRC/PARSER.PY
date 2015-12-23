@@ -60,9 +60,14 @@ def p_FUNCBODY_REC(P):
     P[0] = ProgramNode([P[1]] + P[3].children)
 
 
-def p_MAP(P):
-    """STATEMENT : EXPLORE SOMETHING VAR WITH SOMEFUNC FUNC"""
-    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([]))])
+def p_FUNC_PARAMS(P):
+    """FUNC_CALL : SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
+    P[0] = FunctionNode(P[2], [P[6]])
+
+
+def p_FUNC(P):
+    """FUNC_CALL : SOMEFUNC FUNC"""
+    P[0] = FunctionNode(P[2], [ParamsNode([])])
 
 
 # ========== STATEMENTS ==========
@@ -70,6 +75,11 @@ def p_MAP(P):
 def p_STATEMENT_RETURN(P):
     """STATEMENT : RETURN EXPRESSION"""
     P[0] = ReturnNode([P[2]])
+
+
+def p_STATEMENT_CALL(P):
+    """STATEMENT : CALL FUNC_CALL"""
+    P[0] = P[2]
 
 
 def p_STATEMENT_EXP(P):
@@ -93,6 +103,16 @@ def p_ASSIGNEMENT(P):
 def p_PRINT(P):
     """PRINT : DISPLAY_VAR EXPRESSION"""
     P[0] = PrintNode(P[2])
+
+
+def p_MAP(P):
+    """STATEMENT : EXPLORE SOMETHING VAR WITH SOMEFUNC FUNC"""
+    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([])), ParamsNode([])])
+
+
+def p_MAP_PARAMS(P):
+    """STATEMENT : EXPLORE SOMETHING VAR WITH SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
+    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([])), P[10]])
 
 
 # ========== BLOCKS ==========
@@ -134,14 +154,9 @@ def p_EXPRESSION_NUM(P):
         P[0] = TokenNode(P[2], P[4])
 
 
-def p_EXPRESSION_FUNC_PARAMS(P):
-    """EXPRESSION : SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
-    P[0] = FunctionNode(P[2], [P[6]])
-
-
-def p_EXPRESSION_FUNC(P):
-    """EXPRESSION : SOMEFUNC FUNC"""
-    P[0] = FunctionNode(P[2], [ParamsNode([])])
+def p_FUNC_CALL_EXPRESSION(P):
+    """EXPRESSION : FUNC_CALL"""
+    P[0] = P[1]
 
 
 def p_EXPRESSION_BOOLEAN(P):
