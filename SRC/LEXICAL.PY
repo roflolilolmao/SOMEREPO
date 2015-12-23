@@ -37,7 +37,7 @@ VAR_ACCESSORS = (
     'BURLESQUE',
     'DARK',
     'STORMY',
-    'NOISY'
+    'NOISY',
     'ANCIENT',
     'DRY',
     'DESERTIC',
