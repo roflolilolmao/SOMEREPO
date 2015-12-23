@@ -139,6 +139,16 @@ class MapNode(Node):
         return 'MAP {} {}'.format(self.children[0], self.children[1])
 
 
+class ListNode(Node):
+    type = "LIST"
+
+    def __init__(self, children):
+        Node.__init__(self, children)
+
+    def __repr__(self):
+        return "LIST : {} ; {}".format(self.children[0], self.children[1])
+
+
 class TokenNode(Node):
     type = 'TOKEN'
 

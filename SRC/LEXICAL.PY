@@ -75,7 +75,9 @@ RESERVED_WORDS = (
     'IS',
     'WITH',
     'EXPLORE',
-    'CALL'
+    'CALL',
+    'SEAT',
+    'OF'
 )
 
 tokens = (
@@ -86,6 +88,8 @@ tokens = (
     'LINEBREAK',
     'VAR',
     'ACCESSOR',
+    'LIST_ACCESSOR',
+    'LIST_SETTER',
     'FUNC',
     'SOMEFUNC',
     'RETURN',
@@ -163,6 +167,16 @@ def t_COMPARE_OP(T):
 
 def t_MUL_OP(T):
     r"""BY|OUT\ OF"""
+    return T
+
+
+def t_LIST_ACCESSOR(T):
+    r"""SOMEWHERE\ ORDERED"""
+    return T
+
+
+def t_LIST_SETTER(T):
+    r"""IS\ RESPECTIVELY"""
     return T
 
 

@@ -17,6 +17,8 @@ compare_operations = {
     'EQUAL TO': lambda X, Y: X == Y
 }
 
+ORDERED = "ORDERED"
+
 VARS = {}
 FUNCS = {}
 
@@ -103,11 +105,21 @@ def execute(self):
 def execute(self):
     if self.children[0].tok not in VARS:
         VARS[self.children[0].tok] = dict()
-    VALUE = self.children[1].execute()
+        VARS[self.children[0].tok][ORDERED] = list()
+
+    if self.children[1].type == "PARAMS":
+        VALUE = [c.execute() for c in self.children[1].children]
+    else:
+        VALUE = self.children[1].execute()
+
     if isinstance(VALUE, dict):
         VARS[self.children[0].tok].update(VALUE)
+    elif isinstance(VALUE, list):
+        VARS[self.children[0].tok][ORDERED] = VALUE
     else:
         VARS[self.children[0].tok][self.children[0].accessor] = VALUE
+
+    print(VARS)
 
 
 @addToClass(AST.AsciiNode)

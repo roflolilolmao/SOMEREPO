@@ -100,6 +100,15 @@ def p_ASSIGNEMENT(P):
         P[0] = AssignNode([TokenNode(P[2]), P[4]])
 
 
+def p_ASSIGNMENT_LIST(P):
+    """ASSIGNMENT : SOMETHING VAR LIST_ACCESSOR
+    | SOMETHING VAR LIST_ACCESSOR LIST_SETTER PARAMS"""
+    if len(P) == 4:
+        P[0] = AssignNode([TokenNode(P[2]), ParamsNode(list())])
+    else:
+        P[0] = AssignNode([TokenNode(P[2]), P[5]])
+
+
 def p_PRINT(P):
     """PRINT : DISPLAY_VAR EXPRESSION"""
     P[0] = PrintNode(P[2])
@@ -149,7 +158,7 @@ def p_EXPRESSION_NUM(P):
     elif len(P) == 3:
         # SOMETHING VAR
         P[0] = TokenNode(P[2])
-    else:  # len(P) == 5:
+    else: # len(P) == 5:
         # SOMETHING VAR SOMEPLACE ACCESSOR
         P[0] = TokenNode(P[2], P[4])
 
@@ -159,6 +168,16 @@ def p_FUNC_CALL_EXPRESSION(P):
     P[0] = P[1]
 
 
+def p_EXPRESSION_FUNC_PARAMS(P):
+    """EXPRESSION : SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
+    P[0] = FunctionNode(P[2], [P[6]])
+
+
+def p_EXPRESSION_FUNC(P):
+    """EXPRESSION : SOMEFUNC FUNC"""
+    P[0] = FunctionNode(P[2], [ParamsNode([])])
+
+
 def p_EXPRESSION_BOOLEAN(P):
     """EXPRESSION : SOMEWHAT BOOLEAN"""
     if P[2][:2] != 'UN':
@@ -166,6 +185,11 @@ def p_EXPRESSION_BOOLEAN(P):
     else:
         P[0] = TokenNode(False)
 
+
+def p_EXPRESSION_LIST(P):
+    """EXPRESSION : SEAT EXPRESSION OF SOMETHING VAR"""
+    # SEAT EXPRESSION OF SOMETHING VAR
+    P[0] = ListNode([P[4], P[2]])
 
 def p_EXPRESSION_EXISTENCE(P):
     """ EXPRESSION : EXPRESSION EXISTS VAR"""
