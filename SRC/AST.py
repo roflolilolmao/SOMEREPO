@@ -209,6 +209,10 @@ class WhileNode(Node):
     type = 'while'
 
 
+class NotNode(Node):
+    type = 'while'
+
+
 def addToClass(cls):
     """ Décorateur permettant d'ajouter la fonction décorée en tant que méthode
     à une classe.

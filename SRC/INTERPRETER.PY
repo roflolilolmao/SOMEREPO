@@ -8,7 +8,9 @@ operations = {
     'PLUS': lambda X, Y: X + Y,
     'MINUS': lambda X, Y: X - Y,
     'BY': lambda X, Y: X * Y,
-    'OUT OF': lambda X, Y: X / Y
+    'OUT OF': lambda X, Y: X / Y,
+    'OR': lambda X, Y: X or Y,
+    'AND': lambda X, Y: X and Y
 }
 
 compare_operations = {
@@ -89,6 +91,11 @@ def execute(self):
 @addToClass(AST.CompareNode)
 def execute(self):
     return reduce(compare_operations[self.op], [c.execute() for c in self.children])
+
+
+@addToClass(AST.NotNode)
+def execute(self):
+    return not self.children[0].execute()
 
 
 @addToClass(AST.OpNode)
