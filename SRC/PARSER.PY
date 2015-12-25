@@ -168,16 +168,6 @@ def p_FUNC_CALL_EXPRESSION(P):
     P[0] = P[1]
 
 
-def p_EXPRESSION_FUNC_PARAMS(P):
-    """EXPRESSION : SOMEFUNC FUNC COMMA FUNC_PARAMS COLON PARAMS"""
-    P[0] = FunctionNode(P[2], [P[6]])
-
-
-def p_EXPRESSION_FUNC(P):
-    """EXPRESSION : SOMEFUNC FUNC"""
-    P[0] = FunctionNode(P[2], [ParamsNode([])])
-
-
 def p_EXPRESSION_BOOLEAN(P):
     """EXPRESSION : SOMEWHAT BOOLEAN"""
     if P[2][:2] != 'UN':
