@@ -1,5 +1,6 @@
 import AST
 from AST import *
+import LEXICAL
 from functools import reduce
 
 __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
@@ -80,12 +81,12 @@ def execute(self):
 
 @addToClass(AST.TokenNode)
 def execute(self):
-    if isinstance(self.tok, str):
+    if isinstance(self.tok, str) and self.tok in LEXICAL.VAR_NAMES:
         try:
             return VARS[self.tok][self.accessor]
         except KeyError:
             print("*** ERROR: VAR {}.{} NOT DEFINED!".format(self.tok, self.accessor))
-            print(VARS, FUNCS)
+            print(VARS)
             print('\n')
     return self.tok
 
@@ -160,13 +161,21 @@ def execute(self):
 
 @addToClass(AST.MapNode)
 def execute(self):
-    for c in VARS[self.children[0]].keys():
-        if isinstance(VARS[self.children[0]][c], list):
-            continue
-        self.children[1].children[0] = ParamsNode([TokenNode(self.children[0], c)] + self.children[2].children)
-        OUT = self.children[1].execute()
-        if OUT:
-            VARS[self.children[0]][c] = OUT
+    if self.ordered:
+        for i in range(len(VARS[self.children[0]][ORDERED])):
+            self.children[1].children[0] = ParamsNode([TokenNode(VARS[self.children[0]][ORDERED][i])] + self.children[2].children)
+            OUT = self.children[1].execute()
+            if OUT:
+                VARS[self.children[0]][ORDERED][i] = OUT
+
+    else:
+        for c in VARS[self.children[0]].keys():
+            if isinstance(VARS[self.children[0]][c], list):
+                continue
+            self.children[1].children[0] = ParamsNode([TokenNode(self.children[0], c)] + self.children[2].children)
+            OUT = self.children[1].execute()
+            if OUT:
+                VARS[self.children[0]][c] = OUT
 
 
 @addToClass(AST.SomehowNode)

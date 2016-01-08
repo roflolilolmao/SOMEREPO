@@ -1,8 +1,6 @@
 import ply.yacc as YACC
 from LEXICAL import *
 from AST import *
-# DEBUG
-import inspect
 
 __author__ = "GABRIEL FREITAS, QUENTIN JEANMONOD"
 
@@ -84,14 +82,14 @@ def p_STATEMENT_CALL(P):
 
 def p_STATEMENT_EXP(P):
     """STATEMENT : ASSIGNMENT
-    | PRINT
-    | BLOCK"""
+                 | PRINT
+                 | BLOCK"""
     P[0] = P[1]
 
 
 def p_ASSIGNEMENT(P):
     """ASSIGNMENT : SOMETHING VAR IS EXPRESSION
-    | SOMETHING VAR SOMEPLACE ACCESSOR IS EXPRESSION"""
+                  | SOMETHING VAR SOMEPLACE ACCESSOR IS EXPRESSION"""
     if len(P) > 5:
         # SOMETHING VAR SOMEPLACE ACCESSOR IS EXPRESSION
         P[0] = AssignNode([TokenNode(P[2], P[4]),  P[6]])
@@ -102,7 +100,7 @@ def p_ASSIGNEMENT(P):
 
 def p_ASSIGNMENT_LIST(P):
     """ASSIGNMENT : SOMETHING VAR LIST_ACCESSOR
-    | SOMETHING VAR LIST_ACCESSOR LIST_SETTER PARAMS"""
+                  | SOMETHING VAR LIST_ACCESSOR LIST_SETTER PARAMS"""
     if len(P) == 4:
         P[0] = AssignNode([TokenNode(P[2]), ParamsNode(list())])
     else:
@@ -116,12 +114,22 @@ def p_PRINT(P):
 
 def p_MAP(P):
     """STATEMENT : EXPLORE SOMETHING VAR WITH SOMEFUNC FUNC"""
-    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([])), ParamsNode([])])
+    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([])), ParamsNode([])], False)
+
+
+def p_MAP_ORDERED(P):
+    """STATEMENT : EXPLORE SOMETHING VAR LIST_ACCESSOR WITH SOMEFUNC FUNC"""
+    P[0] = MapNode([P[3], FunctionNode(P[7], ParamsNode([])), ParamsNode([])], True)
 
 
 def p_MAP_PARAMS(P):
     """STATEMENT : EXPLORE SOMETHING VAR WITH SOMEFUNC FUNC FUNC_PARAMS COLON PARAMS"""
-    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([])), P[9]])
+    P[0] = MapNode([P[3], FunctionNode(P[6], ParamsNode([])), P[9]], False)
+
+
+def p_MAP_PARAMS_ORDERED(P):
+    """STATEMENT : EXPLORE SOMETHING VAR LIST_ACCESSOR WITH SOMEFUNC FUNC FUNC_PARAMS COLON PARAMS"""
+    P[0] = MapNode([P[3], FunctionNode(P[7], ParamsNode([])), P[10]], True)
 
 
 # ========== BLOCKS ==========
@@ -150,8 +158,8 @@ def p_EXPRESSION_ASCII(P):
 
 def p_EXPRESSION_NUM(P):
     """EXPRESSION : NUMBER
-    | SOMETHING VAR SOMEPLACE ACCESSOR
-    | SOMETHING VAR"""
+                  | SOMETHING VAR SOMEPLACE ACCESSOR
+                  | SOMETHING VAR"""
     if len(P) == 2:
         # NUMBER
         P[0] = TokenNode(P[1])
@@ -178,12 +186,13 @@ def p_EXPRESSION_BOOLEAN(P):
 
 def p_EXPRESSION_LIST(P):
     """EXPRESSION : SEAT EXPRESSION OF SOMETHING VAR
-    | SOMETHING VAR LIST_ACCESSOR"""
+                  | SOMETHING VAR LIST_ACCESSOR"""
     # SEAT EXPRESSION OF SOMETHING VAR
     if len(P) == 6:
         P[0] = ListNode([P[5], P[2]])
     else:
         P[0] = ListNode([P[2]])
+
 
 def p_EXPRESSION_EXISTENCE(P):
     """ EXPRESSION : EXPRESSION EXISTS VAR"""
@@ -202,9 +211,9 @@ def p_EXPRESSION_NOT(P):
 
 def p_EXPRESSION_OP(P):
     """EXPRESSION : EXPRESSION ADD_OP EXPRESSION
-    | EXPRESSION MUL_OP EXPRESSION
-    | EXPRESSION AND EXPRESSION
-    | EXPRESSION OR EXPRESSION"""
+                  | EXPRESSION MUL_OP EXPRESSION
+                  | EXPRESSION AND EXPRESSION
+                  | EXPRESSION OR EXPRESSION"""
     P[0] = OpNode(P[2], [P[1], P[3]])
 
 

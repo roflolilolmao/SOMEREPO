@@ -132,8 +132,9 @@ class ParamsNode(Node):
 class MapNode(Node):
     type = 'MAP'
 
-    def __init__(self, children):
+    def __init__(self, children, ordered=False):
         Node.__init__(self, children)
+        self.ordered = ordered
 
     def __repr__(self):
         return 'MAP {} {}'.format(self.children[0], self.children[1])
