@@ -10,8 +10,6 @@ est une utilisation un peu "limite" de graphviz. Ça marche, mais le layout n'est
 pas toujours optimal...
 """
 
-import pydot
-
 
 class Node:
     count = 0
@@ -47,56 +45,6 @@ class Node:
     
     def __repr__(self):
         return self.type
-    
-    def makegraphicaltree(self, dot=None, edgeLabels=True):
-            if not dot:
-                dot = pydot.Dot()
-            dot.add_node(pydot.Node(self.ID, label=repr(self), shape=self.shape))
-            label = edgeLabels and len(self.children)-1
-            for i, c in enumerate(self.children):
-                c.makegraphicaltree(dot, edgeLabels)
-                edge = pydot.Edge(self.ID, c.ID)
-                if label:
-                    edge.set_label(str(i))
-                dot.add_edge(edge)
-                # Workaround for a bug in pydot 1.0.2 on Windows:
-                # dot.set_graphviz_executables({'dot': r'C:\Program Files\Graphviz2.16\bin\dot.exe'})
-            return dot
-
-    def threadTree(self, graph, seen=None, col=0):
-            colors = ('red', 'green', 'blue', 'yellow', 'magenta', 'cyan')
-            if not seen:
-                seen = []
-            if self in seen:
-                return
-            seen.append(self)
-            new = not graph.get_node(self.ID)
-            if new:
-                graphnode = pydot.Node(self.ID, label=repr(self), shape=self.shape)
-                graphnode.set_style('dotted')
-                graph.add_node(graphnode)
-            label = len(self.next)-1
-            for i, c in enumerate(self.next):
-                if not c:
-                    return
-                col = (col + 1) % len(colors)
-                color = colors[col]                
-                c.threadTree(graph, seen, col)
-                edge = pydot.Edge(self.ID, c.ID)
-                edge.set_color(color)
-                edge.set_arrowsize('.5')
-                # Les arrêtes correspondant aux coutures ne sont pas prises en compte
-                # pour le layout du graphe. Ceci permet de garder l'arbre dans sa représentation
-                # "standard", mais peut provoquer des surprises pour le trajet parfois un peu
-                # tarabiscoté des coutures...
-                # En commantant cette ligne, le layout sera bien meilleur, mais l'arbre nettement
-                # moins reconnaissable.
-                edge.set_constraint('false') 
-                if label:
-                    edge.set_taillabel(str(i))
-                    edge.set_labelfontcolor(color)
-                graph.add_edge(edge)
-            return graph    
 
 
 class ProgramNode(Node):

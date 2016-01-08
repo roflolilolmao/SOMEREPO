@@ -142,7 +142,6 @@ def execute(self):
 
 @addToClass(AST.PrintNode)
 def execute(self):
-
     VALUE = self.children[0].execute()
 
     if isinstance(VALUE, dict):
@@ -163,7 +162,8 @@ def execute(self):
 def execute(self):
     if self.ordered:
         for i in range(len(VARS[self.children[0]][ORDERED])):
-            self.children[1].children[0] = ParamsNode([TokenNode(VARS[self.children[0]][ORDERED][i])] + self.children[2].children)
+            self.children[1].children[0] = ParamsNode([TokenNode(VARS[self.children[0]][ORDERED][i])] +
+                                                      self.children[2].children)
             OUT = self.children[1].execute()
             if OUT:
                 VARS[self.children[0]][ORDERED][i] = OUT
